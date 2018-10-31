@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">DatP RobertM TermProject</string>
+    <string name="title_activity_user_home">UserHomeActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="label_signinBtn">Sign in</string>
+    <string name="label_email">Enter Email</string>
+    <string name="label_password">Enter Password</string>
+    <string name="label_signupBtn">Sign up</string>
+    <string name="label_traineeRadioBtn">Trainee</string>
+    <string name="label_trainerRadioBtn">Trainer</string>
+    <string name="label_emailSignUp">Enter Email</string>
+    <string name="label_passwordSignUp">Enter Password</string>
+    <string name="label_requirement">Please Fill In All Fields</string>
+</resources>

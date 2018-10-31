@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "103658730926",
+    "firebase_url": "https://datp-robertm-termproject-c9c93.firebaseio.com",
+    "project_id": "datp-robertm-termproject-c9c93",
+    "storage_bucket": "datp-robertm-termproject-c9c93.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:103658730926:android:e5d919e9bc522340",
+        "android_client_info": {
+          "package_name": "edu.uco.dpham9.datprobertmtermproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "103658730926-o904dvlo0vq3jm69ie594krjda3csa07.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.uco.dpham9.datprobertmtermproject",
+            "certificate_hash": "ff692a2c77296a524ef1c1e11d15e409e6bc6c31"
+          }
+        },
+        {
+          "client_id": "103658730926-jbao73sr9bfq9bib1eun30bda8cs2f3c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_fdoWTO2xPKAmAu2z2jqfvvctWbOD4zU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "103658730926-jbao73sr9bfq9bib1eun30bda8cs2f3c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
