@@ -29,9 +29,9 @@
                     android:icon="@drawable/ic_menu_share"
                     android:title="Share"/>
             <item
-                    android:id="@+id/nav_logOut"
+                    android:id="@+id/nav_logout"
                     android:icon="@android:drawable/ic_menu_close_clear_cancel"
-                    android:title="@string/label_logOut"/>
+                    android:title="@string/label_logout"/>
         </menu>
     </item>
 

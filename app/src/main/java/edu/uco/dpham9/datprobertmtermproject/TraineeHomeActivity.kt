@@ -15,7 +15,8 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_trainee_home.*
 import kotlinx.android.synthetic.main.app_bar_trainee_home.*
 
-class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener
+{
 
     var mAuth: FirebaseAuth? = null
 
