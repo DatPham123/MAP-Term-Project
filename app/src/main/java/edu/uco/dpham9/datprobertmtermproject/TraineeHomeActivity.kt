@@ -9,13 +9,20 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import com.google.android.gms.common.api.Api
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserInfo
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_trainee_home.*
+import kotlinx.android.synthetic.main.activity_user_sign_up.*
 import kotlinx.android.synthetic.main.app_bar_trainee_home.*
+
+
 
 class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     var mAuth: FirebaseAuth? = null
+    var db: FirebaseFirestore? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,12 +31,26 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
 
         mAuth = FirebaseAuth.getInstance()
         val currentUser = mAuth?.currentUser
+        db = FirebaseFirestore.getInstance()
 
         if(currentUser != null){
             val headerView = nav_view.getHeaderView(0)
             val emailView = headerView.findViewById<TextView>(R.id.id_nav_email)
             emailView.text = currentUser.email
+
+            val userType = headerView.findViewById<TextView>(R.id.id_userType)
+//            //userType.text = currentUser.
+//            db?.collection("Users")
+//                ?.whereEqualTo("trainee", true)?.get()?.addOnCompleteListener {
+//                    if(it.isSuccessful){
+//                        val document = it.result
+//                        if(document!!.isEmpty){
+//                                    userType.text = "Stupid"
+//                            }
+//                        }
+//                    }
         }
+
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -44,6 +65,7 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
 
         nav_view.setNavigationItemSelectedListener(this)
     }
+
 
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {

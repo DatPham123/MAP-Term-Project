@@ -22,8 +22,11 @@
             android:id="@+id/imageView"/>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="344dp"
+            android:layout_height="31dp"
             android:id="@+id/id_nav_email"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="32dp" android:id="@+id/id_userType"/>
 
 </LinearLayout>
