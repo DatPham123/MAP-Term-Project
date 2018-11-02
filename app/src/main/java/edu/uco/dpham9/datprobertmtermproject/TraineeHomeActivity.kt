@@ -1,5 +1,6 @@
 package edu.uco.dpham9.datprobertmtermproject
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_trainee_home.*
 import kotlinx.android.synthetic.main.app_bar_trainee_home.*
@@ -50,6 +52,7 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
             drawer_layout.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
+            logOut()
         }
     }
 
@@ -87,12 +90,21 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
             R.id.nav_share -> {
 
             }
-            R.id.nav_send -> {
-
+            R.id.nav_logOut -> {
+                logOut()
+                finish()
             }
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun logOut()
+    {
+        mAuth?.signOut()
+        val i = Intent(this, MainActivity::class.java)
+        Toast.makeText(this, R.string.err_logOut, Toast.LENGTH_SHORT).show()
+        startActivity(i)
     }
 }

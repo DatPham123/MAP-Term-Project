@@ -1,5 +1,6 @@
 package edu.uco.dpham9.datprobertmtermproject
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -40,6 +41,9 @@ class UserSignUp : AppCompatActivity() {
                         db?.collection("Users")?.document()?.set(userField)
                             ?.addOnCompleteListener {
                                 Toast.makeText(this, "sign up Success", Toast.LENGTH_SHORT).show()
+                                val i = Intent(this, MainActivity::class.java)
+                                startActivity(i)
+                                finish()
                             }
                             ?.addOnFailureListener {
                                 Toast.makeText(this, "sign up Failed\n$it", Toast.LENGTH_SHORT).show()
