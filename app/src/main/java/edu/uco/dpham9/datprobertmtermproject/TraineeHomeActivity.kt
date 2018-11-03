@@ -7,6 +7,7 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
@@ -14,11 +15,14 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_trainee_home.*
 import kotlinx.android.synthetic.main.app_bar_trainee_home.*
+import kotlinx.android.synthetic.main.content_trainee_home.*
 
 class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener
 {
 
     var mAuth: FirebaseAuth? = null
+
+    private var myExercises = ArrayList<TraineeExercise>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +40,11 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Test", null).show()
+                .setAction("Test"){
+                    //Launch Add Trainee Exercise
+//                    val i = Intent(AddTraineeExercise::class.java)
+//                    startActivity(i)
+                }.show()
         }
 
         val toggle = ActionBarDrawerToggle(
@@ -46,6 +54,23 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+
+        //linear layout: vertical
+        id_trainee_recyclerView.layoutManager = LinearLayoutManager(this)
+        id_trainee_recyclerView.adapter = TraineeExerciseListAdapter(this, myExercises)
+
+        for(i in 0..15)
+        {
+            myExercises.add(
+                TraineeExercise(
+                    "Exercise$i", "Description$i",
+                    "vidUrl$i", 5, mAuth?.currentUser!!.uid
+                )
+            )
+        }
+
+        //update adapter data
+        id_trainee_recyclerView.adapter?.notifyDataSetChanged()
     }
 
     override fun onBackPressed() {
