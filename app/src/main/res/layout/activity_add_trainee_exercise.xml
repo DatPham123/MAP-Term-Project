@@ -30,7 +30,7 @@
             android:text="@string/label_trainee_find_vid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/id_trainee_find_vid" android:layout_marginTop="8dp"
+            android:id="@+id/id_trainee_find_vidBtn" android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/id_trainee_ex_desc" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp"/>
@@ -38,8 +38,8 @@
             android:text="@string/label_trainee_add_ex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/id_trainee_add_ex" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/id_trainee_find_vid" app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/id_trainee_add_exBtn" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/id_trainee_find_vidBtn" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp"/>
 </android.support.constraint.ConstraintLayout>
