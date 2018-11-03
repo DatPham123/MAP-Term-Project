@@ -18,6 +18,9 @@ import kotlinx.android.synthetic.main.activity_trainee_home.*
 import kotlinx.android.synthetic.main.app_bar_trainee_home.*
 import kotlinx.android.synthetic.main.content_trainee_home.*
 
+const val REQ_CODE_VIDEO = 1
+const val EXTRA_EXERCISE_ID = "exercise_id"
+
 class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener
 {
 

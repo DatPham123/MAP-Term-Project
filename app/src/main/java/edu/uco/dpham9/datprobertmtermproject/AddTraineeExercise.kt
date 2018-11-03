@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.os.Environment
 import kotlinx.android.synthetic.main.activity_add_trainee_exercise.*
 
-class AddTraineeExercise : AppCompatActivity() {
+class AddTraineeExercise : AppCompatActivity()
+{
+    var videoUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,16 +26,21 @@ class AddTraineeExercise : AppCompatActivity() {
             val data = Uri.parse(pathName)
 
             openVid.setDataAndType(data, "video/*")
-            startActivity(openVid)
+            startActivityForResult(openVid, REQ_CODE_VIDEO)
+        }
+
+        id_trainee_add_exBtn.setOnClickListener {
+            //add exercise to database/recyclerview
+            //add video to storage
         }
     }
 
-
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
-//        if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {
-//            val videoUri: Uri = intent.data
-//            mVideoView.setVideoURI(videoUri)
-//        }
-//    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?)
+    {
+        if (requestCode == REQ_CODE_VIDEO && resultCode == RESULT_OK)
+        {
+            videoUri = intent?.data
+            id_videoUrl.text = videoUri!!.toString()
+        }
+    }
 }

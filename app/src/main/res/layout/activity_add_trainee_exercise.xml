@@ -42,4 +42,9 @@
             app:layout_constraintTop_toBottomOf="@+id/id_trainee_find_vidBtn" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" tools:layout_editor_absoluteY="445dp"
+            tools:layout_editor_absoluteX="144dp" android:id="@+id/id_videoUrl"/>
 </android.support.constraint.ConstraintLayout>
