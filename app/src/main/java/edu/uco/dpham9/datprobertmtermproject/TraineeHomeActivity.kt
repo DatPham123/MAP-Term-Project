@@ -91,7 +91,7 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
             R.id.nav_share -> {
 
             }
-            R.id.nav_logOut -> {
+            R.id.nav_logout -> {
                 logOut()
                 finish()
             }
@@ -105,7 +105,7 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
     {
         mAuth?.signOut()
         val i = Intent(this, MainActivity::class.java)
-        Toast.makeText(this, R.string.err_logOut, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, R.string.err_logout, Toast.LENGTH_SHORT).show()
         startActivity(i)
     }
 }
