@@ -12,6 +12,7 @@ import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_trainee_home.*
 import kotlinx.android.synthetic.main.app_bar_trainee_home.*
 
@@ -19,6 +20,7 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
 {
 
     var mAuth: FirebaseAuth? = null
+    var db: FirebaseFirestore? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +28,7 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         setSupportActionBar(toolbar)
 
         mAuth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
         val currentUser = mAuth?.currentUser
 
         if(currentUser != null){
@@ -76,19 +79,16 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_camera -> {
+            R.id.nav_find_exercise -> {
                 // Handle the camera action
             }
-            R.id.nav_gallery -> {
+            R.id.nav_my_exercise -> {
 
             }
-            R.id.nav_slideshow -> {
+            R.id.nav_my_trainer -> {
 
             }
-            R.id.nav_manage -> {
-
-            }
-            R.id.nav_share -> {
+            R.id.nav_manage_account -> {
 
             }
             R.id.nav_logout -> {

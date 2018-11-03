@@ -5,29 +5,25 @@
 
     <group android:checkableBehavior="single">
         <item
-                android:id="@+id/nav_camera"
-                android:icon="@drawable/ic_menu_camera"
-                android:title="Import"/>
+                android:id="@+id/nav_find_exercise"
+                android:icon="@drawable/ic_search_exercise_24dp"
+                android:title="@string/label_hamburger_find_exercise"/>
         <item
-                android:id="@+id/nav_gallery"
-                android:icon="@drawable/ic_menu_gallery"
-                android:title="Gallery"/>
+                android:id="@+id/nav_my_exercise"
+                android:icon="@drawable/ic_my_exercise"
+                android:title="@string/label_hamburger_my_exercise"/>
         <item
-                android:id="@+id/nav_slideshow"
-                android:icon="@drawable/ic_menu_slideshow"
-                android:title="Slideshow"/>
-        <item
-                android:id="@+id/nav_manage"
-                android:icon="@drawable/ic_menu_manage"
-                android:title="Tools"/>
+                android:id="@+id/nav_my_trainer"
+                android:icon="@drawable/ic_my_trainer"
+                android:title="@string/label_hamburger_my_trainer"/>
     </group>
 
     <item android:title="Communicate">
         <menu>
             <item
-                    android:id="@+id/nav_share"
-                    android:icon="@drawable/ic_menu_share"
-                    android:title="Share"/>
+                    android:id="@+id/nav_manage_account"
+                    android:icon="@drawable/ic_menu_manage"
+                    android:title="@string/label_hamburger_manage_account"/>
             <item
                     android:id="@+id/nav_logout"
                     android:icon="@android:drawable/ic_menu_close_clear_cancel"

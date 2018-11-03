@@ -30,7 +30,7 @@ class UserSignUp : AppCompatActivity() {
             var trainer = id_trainerSignUpRad.isChecked
 
             if(password.length < 6){
-                Toast.makeText(this, "Minimum of 6 character for password", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.err_minimum_6_character, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -40,18 +40,19 @@ class UserSignUp : AppCompatActivity() {
                         var userField = UserAuth(email, password,trainee, trainer)
                         db?.collection("Users")?.document()?.set(userField)
                             ?.addOnCompleteListener {
-                                Toast.makeText(this, "sign up Success", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, R.string.err_sign_up_successful, Toast.LENGTH_SHORT)
+                                    .show()
                                 val i = Intent(this, MainActivity::class.java)
                                 startActivity(i)
                                 finish()
                             }
                             ?.addOnFailureListener {
-                                Toast.makeText(this, "sign up Failed\n$it", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, getString(R.string.err_sign_up_failed, it), Toast.LENGTH_SHORT).show()
                             }
                     }
                     else{
                         val m = it.exception
-                        Toast.makeText(this, "sign up Failed\n$m", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, getString(R.string.err_sign_up_failed, m), Toast.LENGTH_LONG).show()
                     }
                 }
         }
