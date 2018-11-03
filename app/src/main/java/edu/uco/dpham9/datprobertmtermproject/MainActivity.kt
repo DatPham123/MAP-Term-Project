@@ -7,7 +7,10 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+const val EXTRA_EXERCISE_ID = "exercise_id"
+
+class MainActivity : AppCompatActivity()
+{
 
     private var mAuth: FirebaseAuth? = null
 
