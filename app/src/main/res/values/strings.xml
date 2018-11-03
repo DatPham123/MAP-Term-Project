@@ -31,4 +31,5 @@
     <string name="hint_trainee_desc">Enter Description</string>
     <string name="label_trainee_find_vid">Find Video</string>
     <string name="label_trainee_add_ex">Add Exercise</string>
+    <string name="label_trainee_editBtn">Edit</string>
 </resources>
