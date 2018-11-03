@@ -16,6 +16,8 @@
     <string name="label_emailSignUp">Enter Email</string>
     <string name="label_passwordSignUp">Enter Password</string>
     <string name="label_requirement">Please Fill In All Fields</string>
-    <string name="err_logOut">Logout Successful!</string>
-    <string name="label_logOut">Logout</string>
+    <string name="err_logout">Logout Successful!</string>
+    <string name="err_login">Login Successful!</string>
+    <string name="err_loginFail">Login Failed!</string>
+    <string name="label_logout">Logout</string>
 </resources>
