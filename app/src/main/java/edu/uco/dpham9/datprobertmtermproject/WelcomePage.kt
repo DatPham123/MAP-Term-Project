@@ -17,6 +17,7 @@ class WelcomePage : AppCompatActivity() {
                     Thread.sleep(3000)
                     val home = Intent(baseContext, MainActivity::class.java)
                     startActivity(home)
+                    finish()
                 }catch (e: Exception){
                     e.printStackTrace()
                 }

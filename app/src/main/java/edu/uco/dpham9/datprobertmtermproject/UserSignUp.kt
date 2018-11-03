@@ -8,10 +8,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_user_sign_up.*
 
-class UserSignUp : AppCompatActivity() {
+class UserSignUp : AppCompatActivity()
+{
 
     var mAuth: FirebaseAuth? = null
     var db: FirebaseFirestore? = null
+    private val pattern = """.+@\..+""".toRegex()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -28,6 +30,17 @@ class UserSignUp : AppCompatActivity() {
             val password = id_passwordSignUp.text.toString().trim()
             var trainee = id_traineeSignUpRad.isChecked
             var trainer = id_trainerSignUpRad.isChecked
+
+            if(email.isNullOrEmpty() || email.isNullOrBlank())
+            {
+                Toast.makeText(this, R.string.err_empty_email, Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            else if(!pattern.matches(email))
+            {
+                Toast.makeText(this, R.string.err_invalid_email, Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             if(password.length < 6){
                 Toast.makeText(this, R.string.err_minimum_6_character, Toast.LENGTH_SHORT).show()
