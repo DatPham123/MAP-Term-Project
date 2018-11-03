@@ -21,13 +21,12 @@
     <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/id_passwordSignUp" android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@+id/id_emailSignup" android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
             app:layout_constraintStart_toStartOf="parent" android:hint="@string/label_passwordSignUp"
-            app:layout_constraintHorizontal_bias="0.509"/>
+            app:layout_constraintHorizontal_bias="0.509" android:inputType="textPassword"/>
     <RadioGroup
             android:layout_width="218dp"
             android:layout_height="57dp"

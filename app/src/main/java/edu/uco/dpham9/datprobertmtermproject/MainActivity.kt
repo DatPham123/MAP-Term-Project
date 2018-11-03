@@ -30,12 +30,12 @@ class MainActivity : AppCompatActivity()
                 mAuth?.signInWithEmailAndPassword(email, password)
                     ?.addOnCompleteListener {
                         if (it.isSuccessful) {
-                            Toast.makeText(this, R.string.err_login, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, R.string.err_signIn, Toast.LENGTH_SHORT).show()
                             val traineeIntent = Intent(this, TraineeHomeActivity::class.java)
                             startActivity(traineeIntent)
                         } else {
 
-                            Toast.makeText(this, R.string.err_loginFail, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, R.string.err_signInFail, Toast.LENGTH_SHORT).show()
                         }
                     }
         }

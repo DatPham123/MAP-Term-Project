@@ -16,10 +16,10 @@
     <string name="label_emailSignUp">Enter Email</string>
     <string name="label_passwordSignUp">Enter Password</string>
     <string name="label_requirement">Please Fill In All Fields</string>
-    <string name="err_logout">Logout Successful!</string>
-    <string name="err_login">Login Successful!</string>
-    <string name="err_loginFail">Login Failed!</string>
-    <string name="label_logout">Logout</string>
+    <string name="err_signOut">Sign Out Successful!</string>
+    <string name="err_signIn">Sign In Successful!</string>
+    <string name="err_signInFail">Sign In Failed!</string>
+    <string name="label_signOut">Sign Out</string>
     <string name="label_hamburger_find_exercise">Find Exercise</string>
     <string name="label_hamburger_my_exercise">My Exercise</string>
     <string name="label_hamburger_my_trainer">My Trainer</string>

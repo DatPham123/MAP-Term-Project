@@ -130,7 +130,7 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
     {
         mAuth?.signOut()
         val i = Intent(this, MainActivity::class.java)
-        Toast.makeText(this, R.string.err_logout, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, R.string.err_signOut, Toast.LENGTH_SHORT).show()
         startActivity(i)
     }
 }
