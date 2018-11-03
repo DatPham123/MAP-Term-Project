@@ -10,7 +10,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private var mAuth: FirebaseAuth? = null
-    private var check = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,12 +27,12 @@ class MainActivity : AppCompatActivity() {
                 mAuth?.signInWithEmailAndPassword(email, password)
                     ?.addOnCompleteListener {
                         if (it.isSuccessful) {
-                            Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, R.string.err_login, Toast.LENGTH_SHORT).show()
                             val traineeIntent = Intent(this, TraineeHomeActivity::class.java)
                             startActivity(traineeIntent)
                         } else {
 
-                            Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, R.string.err_loginFail, Toast.LENGTH_SHORT).show()
                         }
                     }
         }
