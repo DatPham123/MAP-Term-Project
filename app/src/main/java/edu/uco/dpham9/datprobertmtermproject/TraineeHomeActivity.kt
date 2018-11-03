@@ -42,12 +42,9 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         }
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Test"){
-                    //Launch Add Trainee Exercise
-//                    val i = Intent(AddTraineeExercise::class.java)
-//                    startActivity(i)
-                }.show()
+            //Launch Add Trainee Exercise
+            val i = Intent(this, AddTraineeExercise::class.java)
+            startActivity(i)
         }
 
         val toggle = ActionBarDrawerToggle(
