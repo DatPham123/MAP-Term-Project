@@ -5,6 +5,7 @@ import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_add_trainee_exercise.*
 
 class AddTraineeExercise : AppCompatActivity()
@@ -40,7 +41,9 @@ class AddTraineeExercise : AppCompatActivity()
         if (requestCode == REQ_CODE_VIDEO && resultCode == RESULT_OK)
         {
             videoUri = intent?.data
-            id_videoUrl.text = videoUri!!.toString()
+            var fileName = videoUri.toString().substring(videoUri.toString()
+                .lastIndexOf("/")+1)
+            id_videoUrl.text = "${getString(R.string.label_filename)} $fileName"
         }
     }
 }

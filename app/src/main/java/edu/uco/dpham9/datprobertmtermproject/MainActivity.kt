@@ -21,8 +21,10 @@ class MainActivity : AppCompatActivity()
         //sign in button
         id_signinBtn.setOnClickListener {
 
-            val email = id_email.text.toString().trim()
-            val password = id_password.text.toString().trim()
+            //val email = id_email.text.toString().trim()
+            //val password = id_password.text.toString().trim()
+            val email = "dpham9@uco.edu"
+            val password = "password"
 
             //trainee is selected
                 mAuth?.signInWithEmailAndPassword(email, password)

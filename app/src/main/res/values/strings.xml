@@ -26,10 +26,12 @@
     <string name="label_hamburger_manage_account">Manage Account</string>
     <string name="err_minimum_6_character">Minimum of 6 character for password</string>
     <string name="err_sign_up_successful">Sign Up Success</string>
-    <string name="err_sign_up_failed">Sign up Failed %s</string>
+    <string name="err_sign_up_failed">Sign up Failed %1$s</string>
     <string name="hint_name_of_exercise">Name of exercise</string>
     <string name="hint_trainee_desc">Enter Description</string>
     <string name="label_trainee_find_vid">Find Video</string>
     <string name="label_trainee_add_ex">Add Exercise</string>
     <string name="label_trainee_editBtn">Edit</string>
+    <string name="label_filename">Filename: </string>
+
 </resources>
