@@ -45,11 +45,11 @@
             android:layout_marginStart="8dp"/>
     <TextView
             android:layout_width="wrap_content"
-            android:layout_height="24dp"
+            android:layout_height="wrap_content"
             android:id="@+id/id_videoUrl"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/id_trainee_ex_desc" android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
             android:text="@string/label_filename"/>
 </android.support.constraint.ConstraintLayout>

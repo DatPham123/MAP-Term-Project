@@ -35,8 +35,8 @@ class MainActivity : AppCompatActivity()
                 return@setOnClickListener
             }
 
-            //val email = "dpham9@uco.edu"
-            //val password = "password"
+//            val email = "dpham9@uco.edu"
+//            val password = "password"
 
             //trainee is selected
                 mAuth?.signInWithEmailAndPassword(email, password)

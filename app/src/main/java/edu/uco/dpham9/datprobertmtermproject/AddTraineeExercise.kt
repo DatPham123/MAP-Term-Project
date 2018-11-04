@@ -41,9 +41,10 @@ class AddTraineeExercise : AppCompatActivity()
         if (requestCode == REQ_CODE_VIDEO && resultCode == RESULT_OK)
         {
             videoUri = intent?.data
-            var fileName = videoUri.toString().substring(videoUri.toString()
-                .lastIndexOf("/")+1)
-            id_videoUrl.text = "${getString(R.string.label_filename)} $fileName"
+            //Toast.makeText(this, intent?.data?.encodedPath, Toast.LENGTH_LONG).show()
+            //var fileName = videoUri.toString().substring(videoUri.toString()
+                //.lastIndexOf("/")+1)
+            id_videoUrl.text = "${getString(R.string.label_filename)} $videoUri"
         }
     }
 }

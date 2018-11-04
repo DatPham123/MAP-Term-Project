@@ -32,7 +32,7 @@
     <string name="label_trainee_find_vid">Find Video</string>
     <string name="label_trainee_add_ex">Add Exercise</string>
     <string name="label_trainee_editBtn">Edit</string>
-    <string name="label_filename">Filename: </string>
+    <string name="label_filename">File path: </string>
     <string name="label_createAccount">Create Account</string>
     <string name="err_empty_email">Email cannot be empty</string>
     <string name="err_invalid_email">Email Invalid</string>
