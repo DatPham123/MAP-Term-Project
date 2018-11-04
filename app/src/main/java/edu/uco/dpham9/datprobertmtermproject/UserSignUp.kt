@@ -13,7 +13,7 @@ class UserSignUp : AppCompatActivity()
 
     var mAuth: FirebaseAuth? = null
     var db: FirebaseFirestore? = null
-    private val pattern = """.+@\..+""".toRegex()
+    private val pattern = """.+@.+\..+""".toRegex()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {

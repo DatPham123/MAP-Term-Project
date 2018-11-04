@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity()
         id_signupBtn.setOnClickListener {
             val createUserPage = Intent(this, UserSignUp::class.java)
             startActivity(createUserPage)
+            
         }
 
         //next function here
