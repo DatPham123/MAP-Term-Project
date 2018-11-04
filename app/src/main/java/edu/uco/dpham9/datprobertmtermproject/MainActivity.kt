@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity()
                             Toast.makeText(this, R.string.err_signIn, Toast.LENGTH_SHORT).show()
                             val traineeIntent = Intent(this, TraineeHomeActivity::class.java)
                             startActivity(traineeIntent)
+                            finish()
                         } else {
 
                             Toast.makeText(this, R.string.err_signInFail, Toast.LENGTH_SHORT).show()
