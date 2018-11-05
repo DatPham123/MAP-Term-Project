@@ -1,11 +1,18 @@
-package edu.uco.dpham9.datprobertmtermproject
+package edu.uco.dpham9.datprobertmtermproject.Model
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.firebase.firestore.Exclude
 
 const val NO_EMAIL = "No Email"
 const val NO_PASS = "No PASSWORD"
 class UserAuth(var email: String, var password: String, var trainee: Boolean, var trainer: Boolean):Parcelable{
+    constructor(): this("" , "" , false, false)
+    var timeStamp: Long = 0
+
+    @get:Exclude
+    var id: String = ""
+
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),

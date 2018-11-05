@@ -1,4 +1,4 @@
-package edu.uco.dpham9.datprobertmtermproject
+package edu.uco.dpham9.datprobertmtermproject.Model
 
 class Comment(var comment: String, val posterId: String, val exerciseId: String)
 {

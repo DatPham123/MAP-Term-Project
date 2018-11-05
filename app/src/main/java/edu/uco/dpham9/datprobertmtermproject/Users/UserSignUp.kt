@@ -1,4 +1,4 @@
-package edu.uco.dpham9.datprobertmtermproject
+package edu.uco.dpham9.datprobertmtermproject.Users
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -6,6 +6,9 @@ import android.os.Bundle
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import edu.uco.dpham9.datprobertmtermproject.MainActivity
+import edu.uco.dpham9.datprobertmtermproject.R
+import edu.uco.dpham9.datprobertmtermproject.Model.UserAuth
 import kotlinx.android.synthetic.main.activity_user_sign_up.*
 
 class UserSignUp : AppCompatActivity()
@@ -50,11 +53,11 @@ class UserSignUp : AppCompatActivity()
             mAuth?.createUserWithEmailAndPassword(email, password)
                 ?.addOnCompleteListener(this) {
                     if(it.isSuccessful){
-                        var userField = UserAuth(email, password,trainee, trainer)
-                        db?.collection("Users")?.document()?.set(userField)
+                        var userField = UserAuth(email, password, trainee, trainer)
+                        db?.collection("Users")?.document("$email")?.set(userField)
                             ?.addOnCompleteListener {
-                                Toast.makeText(this, R.string.err_sign_up_successful, Toast.LENGTH_SHORT)
-                                    .show()
+                                Toast.makeText(this,
+                                    R.string.err_sign_up_successful, Toast.LENGTH_SHORT).show()
                                 val i = Intent(this, MainActivity::class.java)
                                 startActivity(i)
                                 finish()

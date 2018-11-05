@@ -5,18 +5,23 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import edu.uco.dpham9.datprobertmtermproject.Model.UserAuth
+import edu.uco.dpham9.datprobertmtermproject.Users.UserSignUp
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity()
 {
 
     private var mAuth: FirebaseAuth? = null
+    private var db: FirebaseFirestore? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         mAuth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
 
         //sign in button
         id_signinBtn.setOnClickListener {
@@ -38,14 +43,37 @@ class MainActivity : AppCompatActivity()
 //            val email = "dpham9@uco.edu"
 //            val password = "password"
 
-            //trainee is selected
+            //sign in
                 mAuth?.signInWithEmailAndPassword(email, password)
                     ?.addOnCompleteListener {
                         if (it.isSuccessful) {
-                            Toast.makeText(this, R.string.err_signIn, Toast.LENGTH_SHORT).show()
-                            val traineeIntent = Intent(this, TraineeHomeActivity::class.java)
-                            startActivity(traineeIntent)
-                            finish()
+
+                            var userEmail = mAuth?.currentUser?.email
+
+                            val collectionName = "Users"
+                            db?.collection(collectionName)?.get()?.addOnSuccessListener {
+
+                                for (docSnapshot in it){
+                                    val userInfo = docSnapshot.toObject(UserAuth::class.java)
+                                    //trainee login
+                                    if(userInfo.trainee){
+                                        Toast.makeText(this, R.string.err_signIn, Toast.LENGTH_SHORT).show()
+                                        val traineeIntent = Intent(this, TraineeHomeActivity::class.java)
+                                        startActivity(traineeIntent)
+                                        finish()
+                                    }
+                                    //trainer login
+                                    if(userInfo.trainer){
+                                        val traineeIntent = Intent(this, TraineeHomeActivity::class.java)
+                                        startActivity(traineeIntent)
+                                        finish()
+                                    }
+                                }
+
+                            }?.addOnFailureListener {
+                                Toast.makeText(this, it.toString(), Toast.LENGTH_LONG).show()
+                            }
+
                         } else {
 
                             Toast.makeText(this, R.string.err_signInFail, Toast.LENGTH_SHORT).show()

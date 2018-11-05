@@ -16,7 +16,7 @@
                 android:label="@string/title_activity_user_home"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".UserSignUp">
+        <activity android:name=".Users.UserSignUp">
         </activity>
         <activity
                 android:name=".WelcomePage"
