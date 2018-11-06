@@ -49,9 +49,21 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
 
         val currentUser = mAuth?.currentUser
 
-        //check for which user
-        if (currentUser != null)
-            initNavMenuDisplay(currentUser)
+        db?.collection("Users")
+            ?.whereEqualTo("id", currentUser!!.uid)
+            ?.get()
+            ?.addOnCompleteListener {
+                if(it.isSuccessful)
+                {
+                    val isTrainee = it.result!!.documents[0]!!.toObject(UserAuth::class.java)!!.isTrainee
+                    initNavMenuDisplay(isTrainee)
+                    initRecyclerView(isTrainee)
+                }
+            }
+            ?.addOnFailureListener {
+                Toast.makeText(this, it.toString(), Toast.LENGTH_LONG).show()
+                finish()
+            }
 
         fab.setOnClickListener { view ->
             //Launch Add Trainee Exercise
@@ -68,20 +80,17 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
-
-        if (currentUser != null)
-            initRecyclerView(currentUser)
     }
 
-    private fun initRecyclerView(currentUser: FirebaseUser)
+    private fun initRecyclerView(isTrainee: Boolean)
     {
         id_user_recyclerView.layoutManager = LinearLayoutManager(this)
-        if(isTrainee(currentUser))
+        if(isTrainee)
         {
             id_user_recyclerView.adapter = TraineeExerciseListAdapter(this, myExercises)
 
             db?.collection("TraineeExercises")
-                ?.whereEqualTo("traineeId", currentUser.uid)
+                ?.whereEqualTo("traineeId", this.mAuth?.currentUser!!.uid)
                 ?.get()
                 ?.addOnSuccessListener {
                     //myExercises.clear()
@@ -104,9 +113,9 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         }
     }
 
-    private fun initNavMenuDisplay(currentUser: FirebaseUser)
+    private fun initNavMenuDisplay(isTrainee: Boolean)
     {
-        if (isTrainee(currentUser))
+        if (isTrainee)
         {
             displayTraineeNavMenu()
         }
@@ -115,26 +124,7 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
 
         val headerView = nav_view.getHeaderView(0)
         val emailView = headerView.findViewById<TextView>(R.id.id_nav_email)
-        emailView.text = currentUser.email
-    }
-
-    private fun isTrainee(currentUser: FirebaseUser): Boolean
-    {
-        var user: UserAuth? = null
-        var isTrainee = true
-
-            db?.collection("Users")
-                ?.whereEqualTo("id", currentUser.uid)
-                ?.get()
-                ?.addOnSuccessListener {
-                    user = it.documents[0].toObject(UserAuth::class.java)
-                    isTrainee = user!!.isTrainee
-                }
-                ?.addOnFailureListener {
-                    Toast.makeText(this, it.toString(), Toast.LENGTH_LONG).show()
-                }
-
-        return isTrainee
+        emailView.text = this.mAuth?.currentUser!!.email
     }
 
     private fun displayTraineeNavMenu()
