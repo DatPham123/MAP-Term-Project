@@ -6,18 +6,20 @@ import com.google.firebase.firestore.Exclude
 
 const val NO_EMAIL = "No Email"
 const val NO_PASS = "No PASSWORD"
-class UserAuth(var email: String, var password: String, var trainee: Boolean, var trainer: Boolean):Parcelable{
-    constructor(): this("" , "" , false, false)
-    var timeStamp: Long = 0
+class UserAuth(var email: String, var password: String, var isTrainee: Boolean, var isTrainer: Boolean,
+               var id: String) : Parcelable
+{
+    constructor(): this("" , "" , false, false, "")
 
-    @get:Exclude
-    var id: String = ""
+    var trainerId: String? = null   //if isTrainee, your trainer's id
+    var traineeIds: ArrayList<String>? = null   //if isTrainer, your trainees' ids
 
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
         parcel.readByte() != 0.toByte(),
-        parcel.readByte() != 0.toByte()
+        parcel.readByte() != 0.toByte(),
+        parcel.readString()
     )
 
 
@@ -29,19 +31,22 @@ class UserAuth(var email: String, var password: String, var trainee: Boolean, va
         if(password.isEmpty() || password.isNullOrBlank()){
             password = NO_PASS
         }
-        if(trainee){
-            this.trainee = trainee
+        if(isTrainee){
+            this.isTrainee = isTrainee
         }
-        if(trainer){
-            this.trainer = trainer
+        if(isTrainer){
+            this.isTrainer = isTrainer
         }
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(email)
         parcel.writeString(password)
-        parcel.writeByte(if (trainee) 1 else 0)
-        parcel.writeByte(if (trainer) 1 else 0)
+        parcel.writeByte(if (isTrainee) 1 else 0)
+        parcel.writeByte(if (isTrainer) 1 else 0)
+        parcel.writeString(id)
+        parcel.writeString(trainerId)
+        parcel.writeStringList(traineeIds)
     }
 
     override fun describeContents(): Int {

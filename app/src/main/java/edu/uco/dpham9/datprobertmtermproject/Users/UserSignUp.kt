@@ -53,7 +53,7 @@ class UserSignUp : AppCompatActivity()
             mAuth?.createUserWithEmailAndPassword(email, password)
                 ?.addOnCompleteListener(this) {
                     if(it.isSuccessful){
-                        var userField = UserAuth(email, password, trainee, trainer)
+                        var userField = UserAuth(email, password, trainee, trainer, mAuth?.currentUser!!.uid)
                         db?.collection("Users")?.document("$email")?.set(userField)
                             ?.addOnCompleteListener {
                                 Toast.makeText(this,

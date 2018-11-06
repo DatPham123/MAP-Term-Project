@@ -1,4 +1,4 @@
-package edu.uco.dpham9.datprobertmtermproject
+package edu.uco.dpham9.datprobertmtermproject.Model
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -7,12 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import edu.uco.dpham9.datprobertmtermproject.Model.TraineeExercise
+import edu.uco.dpham9.datprobertmtermproject.R
 
 class TraineeExerciseListAdapter(val context: Context, var traineeExercises: ArrayList<TraineeExercise>)
     : RecyclerView.Adapter<TraineeExerciseListAdapter.ViewHolder>()
 {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TraineeExerciseListAdapter.ViewHolder
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
     {
         val view = LayoutInflater.from(context)
             .inflate(R.layout.card_view, parent, false)
@@ -24,7 +24,7 @@ class TraineeExerciseListAdapter(val context: Context, var traineeExercises: Arr
         return traineeExercises.size
     }
 
-    override fun onBindViewHolder(holder: TraineeExerciseListAdapter.ViewHolder, position: Int)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int)
     {
         holder.bindItem(position)
     }

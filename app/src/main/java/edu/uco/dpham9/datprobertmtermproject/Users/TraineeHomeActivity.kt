@@ -1,6 +1,5 @@
-package edu.uco.dpham9.datprobertmtermproject
+package edu.uco.dpham9.datprobertmtermproject.Users
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
@@ -8,52 +7,51 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import edu.uco.dpham9.datprobertmtermproject.AddTraineeExercise
+import edu.uco.dpham9.datprobertmtermproject.MainActivity
 import edu.uco.dpham9.datprobertmtermproject.Model.TraineeExercise
+import edu.uco.dpham9.datprobertmtermproject.Model.TraineeExerciseListAdapter
 import edu.uco.dpham9.datprobertmtermproject.Model.UserAuth
-import kotlinx.android.synthetic.main.activity_trainee_home.*
-import kotlinx.android.synthetic.main.app_bar_trainee_home.*
-import kotlinx.android.synthetic.main.content_trainee_home.*
+import edu.uco.dpham9.datprobertmtermproject.R
+import kotlinx.android.synthetic.main.activity_user_home.*
+import kotlinx.android.synthetic.main.app_bar_user_home.*
+import kotlinx.android.synthetic.main.content_user_home.*
 
 const val REQ_CODE_VIDEO = 1
 const val EXTRA_EXERCISE_ID = "exercise_id"
 
+const val TAG = "local"
+
 class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener
 {
 
-    var mAuth: FirebaseAuth? = null
-    var db: FirebaseFirestore? = null
+    private var mAuth: FirebaseAuth? = null
+    private var db: FirebaseFirestore? = null
 
     private var myExercises = ArrayList<TraineeExercise>()
+    private var myTrainees = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_trainee_home)
+        setContentView(R.layout.activity_user_home)
         setSupportActionBar(toolbar)
 
         mAuth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
-
         val currentUser = mAuth?.currentUser
 
         //check for which user
-        if(currentUser != null)
-        initialNavMenuDisplay(currentUser)
-
-        //show current user email
-        if(currentUser != null){
-            val headerView = nav_view.getHeaderView(0)
-            val emailView = headerView.findViewById<TextView>(R.id.id_nav_email)
-            emailView.text = currentUser.email
-        }
+        if (currentUser != null)
+            initNavMenuDisplay(currentUser)
 
         fab.setOnClickListener { view ->
             //Launch Add Trainee Exercise
@@ -62,71 +60,98 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         }
 
         val toggle = ActionBarDrawerToggle(
-            this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+            this, drawer_layout, toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
         )
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
 
-        //linear layout: vertical
-        id_trainee_recyclerView.layoutManager = LinearLayoutManager(this)
-        id_trainee_recyclerView.adapter = TraineeExerciseListAdapter(this, myExercises)
-
-        for(i in 0..15)
-        {
-            myExercises.add(
-                TraineeExercise(
-                    "Exercise$i", "Description$i",
-                    "vidUrl$i", 5, mAuth?.currentUser!!.uid
-                )
-            )
-        }
-
-        //update adapter data
-        id_trainee_recyclerView.adapter?.notifyDataSetChanged()
+        if (currentUser != null)
+            initRecyclerView(currentUser)
     }
 
-    private fun initialNavMenuDisplay(currentUser: FirebaseUser) {
+    private fun initRecyclerView(currentUser: FirebaseUser)
+    {
+        id_user_recyclerView.layoutManager = LinearLayoutManager(this)
+        if(isTrainee(currentUser))
+        {
+            id_user_recyclerView.adapter = TraineeExerciseListAdapter(this, myExercises)
 
-        if (isTrainee(currentUser)) {
+            db?.collection("TraineeExercises")
+                ?.whereEqualTo("traineeId", currentUser.uid)
+                ?.get()
+                ?.addOnSuccessListener {
+                    //myExercises.clear()
+                    for (docSnapShot in it)
+                    {
+                        val exercise = docSnapShot.toObject(TraineeExercise::class.java)
+                        myExercises.add(exercise)
+                    }
+                    id_user_recyclerView.adapter?.notifyDataSetChanged()
+                }
+                ?.addOnFailureListener { ex: Exception ->
+                    Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show()
+                }
+        }
+        else
+        {
+            /******UNDER CONSTRUCTION*********/
+            id_user_recyclerView.adapter = TraineeExerciseListAdapter(this, myExercises)
+            /******UNDER CONSTRUCTION********/
+        }
+    }
+
+    private fun initNavMenuDisplay(currentUser: FirebaseUser)
+    {
+        if (isTrainee(currentUser))
+        {
             displayTraineeNavMenu()
         }
+        else
+            displayTrainerNavMenu()
+
+        val headerView = nav_view.getHeaderView(0)
+        val emailView = headerView.findViewById<TextView>(R.id.id_nav_email)
+        emailView.text = currentUser.email
     }
 
+    private fun isTrainee(currentUser: FirebaseUser): Boolean
+    {
+        var user: UserAuth? = null
+        var isTrainee = true
 
-    private fun isTrainee(currentUser: FirebaseUser): Boolean {
-        val email = currentUser.email
-        val collectionName = "Users"
-
-        val isTrainee = true
-        val headerView = nav_view.getHeaderView(0)
-        val userType = headerView.findViewById<TextView>(R.id.id_userType)
-        userType.text = getString(R.string.label_traineeType)
-
-        //trainer part
-        db?.collection(collectionName)?.get()?.addOnSuccessListener {
-
-            for (docSnapshot in it) {
-                val userInfo = docSnapshot.toObject(UserAuth::class.java)
-                if (userInfo.trainer) {
-                    displayTrainerNavMenu()
+            db?.collection("Users")
+                ?.whereEqualTo("id", currentUser.uid)
+                ?.get()
+                ?.addOnSuccessListener {
+                    user = it.documents[0].toObject(UserAuth::class.java)
+                    isTrainee = user!!.isTrainee
                 }
-            }
-        }
+                ?.addOnFailureListener {
+                    Toast.makeText(this, it.toString(), Toast.LENGTH_LONG).show()
+                }
+
         return isTrainee
     }
 
-    private fun displayTraineeNavMenu() {
+    private fun displayTraineeNavMenu()
+    {
+        val headerView = nav_view.getHeaderView(0)
+        val userType = headerView.findViewById<TextView>(R.id.id_userType)
+        userType.text = getString(R.string.label_traineeType)
         val nav = findViewById<NavigationView>(R.id.nav_view).menu
         nav.findItem(R.id.nav_find_exercise).isVisible = true
         nav.findItem(R.id.nav_manage_account).isVisible = true
         nav.findItem(R.id.nav_my_trainer).isVisible = true
         nav.findItem(R.id.nav_my_exercise).isVisible = true
+        fab.show()
     }
 
-    @SuppressLint("RestrictedApi")
-    private fun displayTrainerNavMenu(){
+    private fun displayTrainerNavMenu()
+    {
         val headerView = nav_view.getHeaderView(0)
         val userType = headerView.findViewById<TextView>(R.id.id_userType)
         userType.text = getString(R.string.label_trainerType)
@@ -135,7 +160,7 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         nav.findItem(R.id.nav_manage_account).isVisible = false
         nav.findItem(R.id.nav_my_trainer).isVisible = false
         nav.findItem(R.id.nav_my_exercise).isVisible = false
-        fab.visibility = View.GONE
+        fab.hide()
     }
 
     override fun onBackPressed() {
@@ -149,7 +174,7 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.trainee_home, menu)
+        menuInflater.inflate(R.menu.user_home, menu)
         return true
     }
 

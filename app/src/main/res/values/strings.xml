@@ -39,4 +39,6 @@
     <string name="err_empty_email">Email cannot be empty</string>
     <string name="err_invalid_email">Email Invalid</string>
     <string name="err_empty_password">Password cannot be empty</string>
+    <string name="err_exNameEmpty">Exercise name cannot be empty</string>
+    <string name="err_newExAdded">New exercise added!</string>
 </resources>

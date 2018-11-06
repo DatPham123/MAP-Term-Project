@@ -1,4 +1,4 @@
-package edu.uco.dpham9.datprobertmtermproject
+package edu.uco.dpham9.datprobertmtermproject.Model
 
 //for general exercise database
 enum class Category {
