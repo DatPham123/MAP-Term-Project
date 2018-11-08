@@ -16,13 +16,10 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-import edu.uco.dpham9.datprobertmtermproject.AddTraineeExercise
-import edu.uco.dpham9.datprobertmtermproject.MainActivity
-import edu.uco.dpham9.datprobertmtermproject.ManageAccount
+import edu.uco.dpham9.datprobertmtermproject.*
 import edu.uco.dpham9.datprobertmtermproject.Model.TraineeExercise
 import edu.uco.dpham9.datprobertmtermproject.Model.TraineeExerciseListAdapter
 import edu.uco.dpham9.datprobertmtermproject.Model.UserAuth
-import edu.uco.dpham9.datprobertmtermproject.R
 import kotlinx.android.synthetic.main.activity_user_home.*
 import kotlinx.android.synthetic.main.app_bar_user_home.*
 import kotlinx.android.synthetic.main.content_user_home.*
@@ -138,7 +135,7 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         nav.findItem(R.id.nav_find_exercise).isVisible = true
         nav.findItem(R.id.nav_manage_account).isVisible = true
         nav.findItem(R.id.nav_my_trainer).isVisible = true
-        nav.findItem(R.id.nav_my_exercise).isVisible = true
+        //nav.findItem(R.id.nav_my_exercise).isVisible = true
         fab.show()
     }
 
@@ -195,7 +192,8 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_find_exercise -> {
-                // Handle the camera action
+//                val i = Intent(this, FindExercise::class.java)
+//                startActivity(i)
             }
             R.id.nav_my_exercise -> {
 
@@ -206,7 +204,6 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
             R.id.nav_manage_account -> {
                 val i = Intent(this, ManageAccount::class.java)
                 startActivity(i)
-
             }
             R.id.nav_logout -> {
                 logOut()
