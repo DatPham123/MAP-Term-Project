@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.uco.dpham9.datprobertmtermproject.AddTraineeExercise
 import edu.uco.dpham9.datprobertmtermproject.MainActivity
+import edu.uco.dpham9.datprobertmtermproject.ManageAccount
 import edu.uco.dpham9.datprobertmtermproject.Model.TraineeExercise
 import edu.uco.dpham9.datprobertmtermproject.Model.TraineeExerciseListAdapter
 import edu.uco.dpham9.datprobertmtermproject.Model.UserAuth
@@ -191,6 +192,8 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
 
             }
             R.id.nav_manage_account -> {
+                val i = Intent(this, ManageAccount::class.java)
+                startActivity(i)
 
             }
             R.id.nav_logout -> {
