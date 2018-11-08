@@ -9,14 +9,11 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageMetadata
-import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.UploadTask
 
 import edu.uco.dpham9.datprobertmtermproject.Model.TraineeExercise
 import edu.uco.dpham9.datprobertmtermproject.Users.REQ_CODE_VIDEO
 import kotlinx.android.synthetic.main.activity_add_trainee_exercise.*
-import java.util.*
+
 
 class AddTraineeExercise : AppCompatActivity()
 {
