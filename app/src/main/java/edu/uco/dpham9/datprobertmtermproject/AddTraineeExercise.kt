@@ -49,7 +49,7 @@ class AddTraineeExercise : AppCompatActivity()
             //add exercise to database/recyclerview
             val name = id_trainee_ex_title.text.toString().trim()
             val desc = id_trainee_ex_desc.text.toString().trim()
-            val url = videoUri.toString()
+            var url = ""
 
             if(name.isNullOrBlank() || name.isNullOrEmpty())
             {
@@ -58,13 +58,18 @@ class AddTraineeExercise : AppCompatActivity()
             }
 
             //add video to storage
-            val path = "Videos/" + mAuth?.currentUser?.email
-            val video = storage?.getReference(path)
+            if(videoUri != null)
+            {
+                url = videoUri.toString()
+                //add video to storage
+                val path = "Videos/" + mAuth?.currentUser?.email
+                val video = storage?.getReference(path)
 
-            video?.putFile(videoUri!!)?.addOnSuccessListener {
-                Toast.makeText(this, R.string.err_success, Toast.LENGTH_LONG).show()
-            }?.addOnFailureListener {
-                Toast.makeText(this, "$it", Toast.LENGTH_LONG).show()
+                video?.putFile(videoUri!!)?.addOnSuccessListener {
+                    Toast.makeText(this, R.string.err_success, Toast.LENGTH_LONG).show()
+                }?.addOnFailureListener {
+                    Toast.makeText(this, "$it", Toast.LENGTH_LONG).show()
+                }
             }
 
             //add trainee exercise to database
