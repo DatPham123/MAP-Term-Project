@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import edu.uco.dpham9.datprobertmtermproject.EditTraineeExercise
 import edu.uco.dpham9.datprobertmtermproject.ExerciseActivity
 import edu.uco.dpham9.datprobertmtermproject.R
 import edu.uco.dpham9.datprobertmtermproject.Users.EXTRA_EXERCISE_ID
@@ -53,9 +54,9 @@ class TraineeExerciseListAdapter(val context: Context, var traineeExercises: Arr
             //itemView represents 1 card entry
             editBtn.setOnClickListener {
                 //Launch Edit Activity
-//                val i = Intent(context, EditTraineeExercise::class.java)
-//                i.putExtra(EXTRA_EXERCISE_ID, traineeExercises[position].exerciseId)
-//                context.startActivity(i)
+                val i = Intent(context, EditTraineeExercise::class.java)
+                i.putExtra(EXTRA_EXERCISE_ID, traineeExercises[position].exerciseId)
+                context.startActivity(i)
             }
         }
 

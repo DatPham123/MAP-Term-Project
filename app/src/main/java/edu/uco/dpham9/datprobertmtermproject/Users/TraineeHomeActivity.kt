@@ -1,5 +1,6 @@
 package edu.uco.dpham9.datprobertmtermproject.Users
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
@@ -26,6 +27,7 @@ import kotlinx.android.synthetic.main.app_bar_user_home.*
 import kotlinx.android.synthetic.main.content_user_home.*
 
 const val REQ_CODE_VIDEO = 1
+const val REQ_CODE_ADD_EX = 2
 const val EXTRA_EXERCISE_ID = "exercise_id"
 
 const val TAG = "local"
@@ -68,7 +70,7 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         fab.setOnClickListener { view ->
             //Launch Add Trainee Exercise
             val i = Intent(this, AddTraineeExercise::class.java)
-            startActivity(i)
+            startActivityForResult(i, REQ_CODE_ADD_EX)
         }
 
         val toggle = ActionBarDrawerToggle(
@@ -87,18 +89,17 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         id_user_recyclerView.layoutManager = LinearLayoutManager(this)
         if(isTrainee)
         {
-            id_user_recyclerView.adapter = TraineeExerciseListAdapter(this, myExercises)
-
-            db?.collection("TraineeExercises")
+            db?.collection("TraineeExercises/${mAuth?.currentUser?.email}/MyExercises")
                 ?.whereEqualTo("traineeId", this.mAuth?.currentUser!!.uid)
                 ?.get()
                 ?.addOnSuccessListener {
-                    //myExercises.clear()
+                    myExercises.clear()
                     for (docSnapShot in it)
                     {
                         val exercise = docSnapShot.toObject(TraineeExercise::class.java)
                         myExercises.add(exercise)
                     }
+                    id_user_recyclerView.adapter = TraineeExerciseListAdapter(this, myExercises)
                     id_user_recyclerView.adapter?.notifyDataSetChanged()
                 }
                 ?.addOnFailureListener { ex: Exception ->
@@ -151,6 +152,17 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         nav.findItem(R.id.nav_my_trainer).isVisible = false
         nav.findItem(R.id.nav_my_exercise).isVisible = false
         fab.hide()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+    {
+        if(resultCode != Activity.RESULT_OK)
+            return
+        if(requestCode == REQ_CODE_ADD_EX)
+        {
+            initRecyclerView(true)
+        }
+
     }
 
     override fun onBackPressed() {

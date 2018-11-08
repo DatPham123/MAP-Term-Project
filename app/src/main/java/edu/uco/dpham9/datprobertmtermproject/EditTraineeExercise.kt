@@ -9,16 +9,11 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageMetadata
-import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.UploadTask
-
 import edu.uco.dpham9.datprobertmtermproject.Model.TraineeExercise
 import edu.uco.dpham9.datprobertmtermproject.Users.REQ_CODE_VIDEO
-import kotlinx.android.synthetic.main.activity_add_trainee_exercise.*
-import java.util.*
+import kotlinx.android.synthetic.main.activity_edit_trainee_exercise.*
 
-class AddTraineeExercise : AppCompatActivity()
+class EditTraineeExercise : AppCompatActivity()
 {
     private var videoUri: Uri? = null
     private var mAuth: FirebaseAuth? = null
@@ -28,7 +23,7 @@ class AddTraineeExercise : AppCompatActivity()
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_trainee_exercise)
+        setContentView(R.layout.activity_edit_trainee_exercise)
 
         mAuth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
@@ -48,11 +43,11 @@ class AddTraineeExercise : AppCompatActivity()
             startActivityForResult(openVid, REQ_CODE_VIDEO)
         }
 
-        id_trainee_add_exBtn.setOnClickListener {
-            //add exercise to database/recyclerview
+        id_trainee_update_exBtn.setOnClickListener {
+
             val name = id_trainee_ex_title.text.toString().trim()
             val desc = id_trainee_ex_desc.text.toString().trim()
-            var url = ""
+            val url = videoUri.toString()
 
             if(name.isNullOrBlank() || name.isNullOrEmpty())
             {
@@ -60,25 +55,18 @@ class AddTraineeExercise : AppCompatActivity()
                 return@setOnClickListener
             }
 
-            if(videoUri != null)
-            {
-                url = videoUri.toString()
-                //add video to storage
-                val path = "Videos/" + mAuth?.currentUser?.email
-                val video = storage?.getReference(path)
+            //add video to storage
+            val path = "Videos/" + mAuth?.currentUser?.email
+            val video = storage?.getReference(path)
 
-                video?.putFile(videoUri!!)?.addOnSuccessListener {
-                    Toast.makeText(this, R.string.err_success, Toast.LENGTH_LONG).show()
-                }?.addOnFailureListener {
-                    Toast.makeText(this, "$it", Toast.LENGTH_LONG).show()
-                }
+            video?.putFile(videoUri!!)?.addOnSuccessListener {
+                Toast.makeText(this, R.string.err_success, Toast.LENGTH_LONG).show()
+            }?.addOnFailureListener {
+                Toast.makeText(this, "$it", Toast.LENGTH_LONG).show()
             }
 
-
-
             //add trainee exercise to database
-            db?.collection("TraineeExercises/${mAuth?.currentUser?.email.toString()}/MyExercises")
-                ?.document(name)
+            db?.collection("TraineeExercises")?.document(mAuth?.currentUser?.email.toString())
                 ?.set(TraineeExercise(name, desc, url, mAuth?.currentUser?.uid.toString()))
                 ?.addOnSuccessListener {
                     Toast.makeText(this, R.string.err_newExAdded, Toast.LENGTH_SHORT).show()
@@ -87,18 +75,6 @@ class AddTraineeExercise : AppCompatActivity()
                 ?.addOnFailureListener { ex: Exception ->
                     Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show()
                 }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?)
-    {
-        if (requestCode == REQ_CODE_VIDEO && resultCode == RESULT_OK)
-        {
-            videoUri = intent?.data
-            //Toast.makeText(this, intent?.data?.encodedPath, Toast.LENGTH_LONG).show()
-            //var fileName = videoUri.toString().substring(videoUri.toString()
-                //.lastIndexOf("/")+1)
-            id_videoUrl.text = "${getString(R.string.label_filename)} $videoUri"
         }
     }
 }
