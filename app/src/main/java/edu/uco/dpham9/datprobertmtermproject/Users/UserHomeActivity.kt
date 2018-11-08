@@ -88,7 +88,6 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         if(isTrainee)
         {
             db?.collection("TraineeExercises/${mAuth?.currentUser?.email}/MyExercises")
-                ?.whereEqualTo("traineeId", this.mAuth?.currentUser!!.uid)
                 ?.get()
                 ?.addOnSuccessListener {
                     myExercises.clear()
