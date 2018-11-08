@@ -8,15 +8,22 @@ import android.os.Environment
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageMetadata
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
+
 import edu.uco.dpham9.datprobertmtermproject.Model.TraineeExercise
 import edu.uco.dpham9.datprobertmtermproject.Users.REQ_CODE_VIDEO
 import kotlinx.android.synthetic.main.activity_add_trainee_exercise.*
+import java.util.*
 
 class AddTraineeExercise : AppCompatActivity()
 {
     private var videoUri: Uri? = null
     private var mAuth: FirebaseAuth? = null
     private var db: FirebaseFirestore? = null
+    private var storage: FirebaseStorage? = null
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -25,6 +32,7 @@ class AddTraineeExercise : AppCompatActivity()
 
         mAuth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
+        storage = FirebaseStorage.getInstance()
 
         id_trainee_find_vidBtn.setOnClickListener {
             val openVid = Intent(Intent.ACTION_PICK)
@@ -52,6 +60,17 @@ class AddTraineeExercise : AppCompatActivity()
                 return@setOnClickListener
             }
 
+            //add video to storage
+            val path = "Videos/" + mAuth?.currentUser?.email
+            val video = storage?.getReference(path)
+
+            video?.putFile(videoUri!!)?.addOnSuccessListener {
+                Toast.makeText(this, R.string.err_success, Toast.LENGTH_LONG).show()
+            }?.addOnFailureListener {
+                Toast.makeText(this, "$it", Toast.LENGTH_LONG).show()
+            }
+
+            //add trainee exercise to database
             db?.collection("TraineeExercises")?.document(mAuth?.currentUser?.email.toString())
                 ?.set(TraineeExercise(name, desc, url, mAuth?.currentUser?.uid.toString()))
                 ?.addOnSuccessListener {
@@ -61,8 +80,6 @@ class AddTraineeExercise : AppCompatActivity()
                 ?.addOnFailureListener { ex: Exception ->
                     Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show()
                 }
-
-            //add video to storage
         }
     }
 

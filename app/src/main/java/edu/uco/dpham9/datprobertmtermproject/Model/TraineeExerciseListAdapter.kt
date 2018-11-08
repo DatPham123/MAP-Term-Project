@@ -1,13 +1,16 @@
 package edu.uco.dpham9.datprobertmtermproject.Model
 
 import android.content.Context
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import edu.uco.dpham9.datprobertmtermproject.ExerciseActivity
 import edu.uco.dpham9.datprobertmtermproject.R
+import edu.uco.dpham9.datprobertmtermproject.Users.EXTRA_EXERCISE_ID
 
 class TraineeExerciseListAdapter(val context: Context, var traineeExercises: ArrayList<TraineeExercise>)
     : RecyclerView.Adapter<TraineeExerciseListAdapter.ViewHolder>()
@@ -41,6 +44,12 @@ class TraineeExerciseListAdapter(val context: Context, var traineeExercises: Arr
             nameView.text = traineeExercises[position].name
             descView.text = traineeExercises[position].description
 
+            itemView.setOnClickListener {
+                val i = Intent(context, ExerciseActivity::class.java)
+                i.putExtra(EXTRA_EXERCISE_ID, traineeExercises[position].exerciseId)
+                context.startActivity(i)
+            }
+
             //itemView represents 1 card entry
             editBtn.setOnClickListener {
                 //Launch Edit Activity
@@ -49,5 +58,6 @@ class TraineeExerciseListAdapter(val context: Context, var traineeExercises: Arr
 //                context.startActivity(i)
             }
         }
+
     }
 }

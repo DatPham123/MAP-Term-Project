@@ -30,6 +30,8 @@
         </activity>
         <activity android:name=".AddTraineeExercise">
         </activity>
+        <activity android:name=".ExerciseActivity">
+        </activity>
     </application>
 
 </manifest>
