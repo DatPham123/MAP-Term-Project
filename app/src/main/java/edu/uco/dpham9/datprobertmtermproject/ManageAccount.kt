@@ -1,5 +1,6 @@
 package edu.uco.dpham9.datprobertmtermproject
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.hardware.camera2.CaptureRequest
 import android.support.v7.app.AppCompatActivity
@@ -27,6 +28,12 @@ class ManageAccount : AppCompatActivity() {
         storage = FirebaseStorage.getInstance()
 
         id_deleteBtn.setOnClickListener {
+            val alertBuilder = AlertDialog.Builder(this@ManageAccount)
+
+            alertBuilder.setTitle("Delete Account")
+            alertBuilder.setMessage("Are you sure you want to delete this account PERMANENTLY?")
+
+            alertBuilder.setPositiveButton("YES"){dialog, which ->
             val me = mAuth?.currentUser
             val path = "Videos/" + mAuth?.currentUser?.email
 
@@ -56,6 +63,13 @@ class ManageAccount : AppCompatActivity() {
             val i = Intent(this, MainActivity::class.java)
             startActivity(i)
             finish()
+            }
+
+            alertBuilder.setNeutralButton("CANCEL"){_,_->
+            }
+
+            val alert = alertBuilder.create()
+            alert.show()
         }
 
     }
