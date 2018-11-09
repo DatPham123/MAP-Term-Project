@@ -102,6 +102,7 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
                 ?.addOnFailureListener { ex: Exception ->
                     Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show()
                 }
+            id_user_recyclerView.adapter?.notifyDataSetChanged()
         }
         else
         {

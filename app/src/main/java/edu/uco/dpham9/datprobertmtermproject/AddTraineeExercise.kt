@@ -1,5 +1,6 @@
 package edu.uco.dpham9.datprobertmtermproject
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
@@ -78,6 +79,8 @@ class AddTraineeExercise : AppCompatActivity()
                 ?.set(TraineeExercise(name, desc, url, mAuth?.currentUser?.uid.toString()))
                 ?.addOnSuccessListener {
                     Toast.makeText(this, R.string.err_newExAdded, Toast.LENGTH_SHORT).show()
+                    val data = Intent()
+                    setResult(Activity.RESULT_OK, data)
                     finish()
                 }
                 ?.addOnFailureListener { ex: Exception ->
