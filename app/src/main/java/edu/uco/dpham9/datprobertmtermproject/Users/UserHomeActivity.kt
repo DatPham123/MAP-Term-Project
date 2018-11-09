@@ -26,7 +26,8 @@ import kotlinx.android.synthetic.main.content_user_home.*
 
 const val REQ_CODE_VIDEO = 1
 const val REQ_CODE_ADD_EX = 2
-const val EXTRA_EXERCISE_ID = "exercise_id"
+const val REQ_CODE_EDIT_EX = 3
+const val EXTRA_EXERCISE = "trainee_exercise"
 
 const val TAG = "local"
 
@@ -155,7 +156,7 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
     {
         if(resultCode != Activity.RESULT_OK)
             return
-        if(requestCode == REQ_CODE_ADD_EX)
+        if(requestCode == REQ_CODE_ADD_EX || requestCode == REQ_CODE_EDIT_EX)
         {
             initRecyclerView(true)
         }

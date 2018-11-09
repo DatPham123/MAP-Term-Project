@@ -1,10 +1,51 @@
 package edu.uco.dpham9.datprobertmtermproject.Model
 
-class TraineeExercise(var name: String, var description: String, var videoUrl: String, val traineeId: String)
+import android.os.Parcel
+import android.os.Parcelable
+
+class TraineeExercise(var name: String, var description: String, var videoUrl: String,
+                      val traineeId: String) : Parcelable
 {
     constructor() : this("", "", "", "")
 
     //traineeId refers to User: userId
     val exerciseId = java.util.UUID.randomUUID().toString() //randomly generated string
     var rating: Int = 0
+
+    constructor(parcel: Parcel) : this(
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString()
+    ) {
+        rating = parcel.readInt()
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(name)
+        parcel.writeString(description)
+        parcel.writeString(videoUrl)
+        parcel.writeString(traineeId)
+        parcel.writeInt(rating)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<TraineeExercise> {
+        override fun createFromParcel(parcel: Parcel): TraineeExercise {
+            return TraineeExercise(parcel)
+        }
+
+        override fun newArray(size: Int): Array<TraineeExercise?> {
+            return arrayOfNulls(size)
+        }
+    }
+
+    override fun equals(other: Any?): Boolean
+    {
+        if(other !is TraineeExercise) return false
+        return exerciseId == other.exerciseId
+    }
 }

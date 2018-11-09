@@ -1,5 +1,6 @@
 package edu.uco.dpham9.datprobertmtermproject.Model
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
@@ -11,7 +12,8 @@ import android.widget.TextView
 import edu.uco.dpham9.datprobertmtermproject.EditTraineeExercise
 import edu.uco.dpham9.datprobertmtermproject.ExerciseActivity
 import edu.uco.dpham9.datprobertmtermproject.R
-import edu.uco.dpham9.datprobertmtermproject.Users.EXTRA_EXERCISE_ID
+import edu.uco.dpham9.datprobertmtermproject.Users.EXTRA_EXERCISE
+import edu.uco.dpham9.datprobertmtermproject.Users.REQ_CODE_EDIT_EX
 
 class TraineeExerciseListAdapter(val context: Context, var traineeExercises: ArrayList<TraineeExercise>)
     : RecyclerView.Adapter<TraineeExerciseListAdapter.ViewHolder>()
@@ -47,7 +49,7 @@ class TraineeExerciseListAdapter(val context: Context, var traineeExercises: Arr
 
             itemView.setOnClickListener {
                 val i = Intent(context, ExerciseActivity::class.java)
-                i.putExtra(EXTRA_EXERCISE_ID, traineeExercises[position].exerciseId)
+                i.putExtra(EXTRA_EXERCISE, traineeExercises[position])
                 context.startActivity(i)
             }
 
@@ -55,8 +57,11 @@ class TraineeExerciseListAdapter(val context: Context, var traineeExercises: Arr
             editBtn.setOnClickListener {
                 //Launch Edit Activity
                 val i = Intent(context, EditTraineeExercise::class.java)
-                i.putExtra(EXTRA_EXERCISE_ID, traineeExercises[position].exerciseId)
-                context.startActivity(i)
+                i.putExtra(EXTRA_EXERCISE, traineeExercises[position])
+
+                //must cast to Activity to use startActivityForResult outside of activity classes
+                if(context is Activity)
+                    context.startActivityForResult(i, REQ_CODE_EDIT_EX)
             }
         }
 
