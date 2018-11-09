@@ -47,4 +47,7 @@
     <string name="label_deleteBtn">Delete Account</string>
     <string name="label_playBtn">Play Video</string>
     <string name="label_noVideo">No Video</string>
+    <string name="err_exUpdated">Exercise Updated!</string>
+    <string name="label_delete_ex">Delete Exercise</string>
+    <string name="err_deleteExSuccess">Exercise Deleted!</string>
 </resources>

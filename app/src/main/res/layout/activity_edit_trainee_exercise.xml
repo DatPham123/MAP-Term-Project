@@ -19,7 +19,7 @@
             app:layout_constraintStart_toStartOf="parent" android:hint="@string/hint_name_of_exercise"/>
     <EditText
             android:layout_width="326dp"
-            android:layout_height="245dp"
+            android:layout_height="205dp"
             android:inputType="textMultiLine|textPersonName"
             android:ems="10"
             android:id="@+id/id_trainee_ex_desc" android:layout_marginTop="8dp"
@@ -31,18 +31,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/id_trainee_find_vidBtn"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/id_videoUrl" android:layout_marginTop="24dp"/>
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="48dp"
+            app:layout_constraintTop_toBottomOf="@+id/id_videoUrl" android:layout_marginTop="44dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            app:layout_constraintHorizontal_bias="0.06"/>
     <Button
             android:text="@string/label_update"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/id_trainee_update_exBtn" android:layout_marginTop="12dp"
-            app:layout_constraintTop_toBottomOf="@+id/id_trainee_find_vidBtn" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"/>
+            android:id="@+id/id_trainee_update_exBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="44dp"
+            app:layout_constraintTop_toBottomOf="@+id/id_videoUrl"
+            app:layout_constraintStart_toEndOf="@+id/id_trainee_find_vidBtn" android:layout_marginStart="8dp"
+            app:layout_constraintHorizontal_bias="0.727"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,4 +56,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
             android:text="@string/label_filename"/>
+    <Button
+            android:text="@string/label_delete_ex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/id_delete_ex" android:layout_marginTop="40dp"
+            app:layout_constraintTop_toBottomOf="@+id/id_trainee_find_vidBtn"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.103"/>
 </android.support.constraint.ConstraintLayout>

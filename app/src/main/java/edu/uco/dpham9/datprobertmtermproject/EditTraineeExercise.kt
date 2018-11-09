@@ -1,5 +1,7 @@
 package edu.uco.dpham9.datprobertmtermproject
 
+import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
@@ -10,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import edu.uco.dpham9.datprobertmtermproject.Model.TraineeExercise
+import edu.uco.dpham9.datprobertmtermproject.Users.EXTRA_EXERCISE
 import edu.uco.dpham9.datprobertmtermproject.Users.REQ_CODE_VIDEO
 import kotlinx.android.synthetic.main.activity_edit_trainee_exercise.*
 
@@ -29,6 +32,14 @@ class EditTraineeExercise : AppCompatActivity()
         db = FirebaseFirestore.getInstance()
         storage = FirebaseStorage.getInstance()
 
+        //get trainee exercise to edit
+        val myExercise = intent.getParcelableExtra<TraineeExercise>(EXTRA_EXERCISE)
+
+        //update fields
+        id_trainee_ex_title.setText(myExercise.name)
+        id_trainee_ex_desc.setText(myExercise.description)
+        id_videoUrl.text = myExercise.videoUrl
+
         id_trainee_find_vidBtn.setOnClickListener {
             val openVid = Intent(Intent.ACTION_PICK)
 
@@ -47,7 +58,7 @@ class EditTraineeExercise : AppCompatActivity()
 
             val name = id_trainee_ex_title.text.toString().trim()
             val desc = id_trainee_ex_desc.text.toString().trim()
-            val url = videoUri.toString()
+            var url = id_videoUrl.text.toString().trim()
 
             if(name.isNullOrBlank() || name.isNullOrEmpty())
             {
@@ -55,26 +66,79 @@ class EditTraineeExercise : AppCompatActivity()
                 return@setOnClickListener
             }
 
-            //add video to storage
-            val path = "Videos/" + mAuth?.currentUser?.email
-            val video = storage?.getReference(path)
+            if(videoUri != null)
+            {
+                //add video to storage
+                url = videoUri.toString()
+                val path = "Videos/" + mAuth?.currentUser?.email
+                val video = storage?.getReference(path)
 
-            video?.putFile(videoUri!!)?.addOnSuccessListener {
-                Toast.makeText(this, R.string.err_success, Toast.LENGTH_LONG).show()
-            }?.addOnFailureListener {
-                Toast.makeText(this, "$it", Toast.LENGTH_LONG).show()
+                video?.putFile(videoUri!!)?.addOnSuccessListener {
+                    Toast.makeText(this, R.string.err_success, Toast.LENGTH_LONG).show()
+                }?.addOnFailureListener {
+                    Toast.makeText(this, "$it", Toast.LENGTH_LONG).show()
+                }
             }
 
+
             //add trainee exercise to database
-            db?.collection("TraineeExercises")?.document(mAuth?.currentUser?.email.toString())
+            db?.collection("TraineeExercises/${mAuth?.currentUser?.email}/MyExercises")
+                ?.document(myExercise.name)
                 ?.set(TraineeExercise(name, desc, url, mAuth?.currentUser?.uid.toString()))
                 ?.addOnSuccessListener {
-                    Toast.makeText(this, R.string.err_newExAdded, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, R.string.err_exUpdated, Toast.LENGTH_SHORT).show()
+
+                    val i = Intent()
+                    setResult(Activity.RESULT_OK, i)
+
                     finish()
                 }
                 ?.addOnFailureListener { ex: Exception ->
                     Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show()
                 }
+        }
+
+        id_delete_ex.setOnClickListener {
+            val alertBuilder = AlertDialog.Builder(this@EditTraineeExercise)
+
+            alertBuilder.setTitle("Delete Exercise")
+            alertBuilder.setMessage("Are you sure you want to delete this exercise?")
+
+            alertBuilder.setPositiveButton("YES"){dialog, which ->
+                db?.collection("TraineeExercises/${mAuth?.currentUser?.email}/MyExercises")
+                    ?.document(myExercise.name)?.delete()
+                    ?.addOnSuccessListener {
+                        Toast.makeText(this, R.string.err_deleteExSuccess, Toast.LENGTH_SHORT).show()
+
+                        val i = Intent()
+                        setResult(Activity.RESULT_OK, i)
+
+                        finish()
+                    }
+                    ?.addOnFailureListener{ ex: Exception ->
+                        Toast.makeText(this, ex.toString(), Toast.LENGTH_SHORT).show()
+                    }
+
+                    //**DELETE VIDEO FROM STORAGE?**//
+//                // Create a storage reference from our app
+//                val storageRef = storage.reference
+//
+//                // Create a reference to the file to delete
+//                val desertRef = storageRef.child("images/desert.jpg")
+//
+//                // Delete the file
+//                desertRef.delete().addOnSuccessListener {
+//                    // File deleted successfully
+//                }.addOnFailureListener {
+//                    // Uh-oh, an error occurred!
+//                }
+            }
+
+            alertBuilder.setNeutralButton("CANCEL"){_,_->
+            }
+
+            val alert = alertBuilder.create()
+            alert.show()
         }
     }
 }
