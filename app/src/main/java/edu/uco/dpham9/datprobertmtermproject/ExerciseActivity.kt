@@ -21,9 +21,10 @@ class ExerciseActivity : AppCompatActivity() {
 
         val path = "Videos/" + mAuth?.currentUser?.email
         storage = FirebaseStorage.getInstance()
-        val r = storage!!.reference.child(path).downloadUrl.addOnSuccessListener {
+        storage!!.reference.child(path).downloadUrl.addOnSuccessListener {
             id_videoView.setVideoURI(Uri.parse(it.toString()))
         }.addOnFailureListener {
+            id_noVideo.text = getString(R.string.label_noVideo)
             Toast.makeText(this, "$it", Toast.LENGTH_LONG).show()
         }
 

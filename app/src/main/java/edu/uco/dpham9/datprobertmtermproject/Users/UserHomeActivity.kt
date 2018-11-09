@@ -102,7 +102,6 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
                 ?.addOnFailureListener { ex: Exception ->
                     Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show()
                 }
-            id_user_recyclerView.adapter?.notifyDataSetChanged()
         }
         else
         {
@@ -135,7 +134,7 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         nav.findItem(R.id.nav_find_exercise).isVisible = true
         nav.findItem(R.id.nav_manage_account).isVisible = true
         nav.findItem(R.id.nav_my_trainer).isVisible = true
-        //nav.findItem(R.id.nav_my_exercise).isVisible = true
+        nav.findItem(R.id.nav_my_exercise).isVisible = false
         fab.show()
     }
 

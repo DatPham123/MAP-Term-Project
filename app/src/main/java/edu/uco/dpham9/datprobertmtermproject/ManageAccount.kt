@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import edu.uco.dpham9.datprobertmtermproject.Model.TraineeExercise
 import kotlinx.android.synthetic.main.activity_manage_account.*
 
 
@@ -14,35 +16,48 @@ class ManageAccount : AppCompatActivity() {
 
     private var mAuth: FirebaseAuth? = null
     private var db: FirebaseFirestore? = null
+    private var storage: FirebaseStorage? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manage_account)
 
         mAuth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
+        storage = FirebaseStorage.getInstance()
 
         id_deleteBtn.setOnClickListener {
             val me = mAuth?.currentUser
+            val path = "Videos/" + mAuth?.currentUser?.email
 
-            //delete account
-            //me?.delete()
+            //delete account from auth
+            me?.delete()
 
-            //delete user's exercises
-            db?.collection("TraineeExercises")?.document(me?.email.toString())
-                ?.delete()?.addOnSuccessListener{
-                Toast.makeText(this, "deleted", Toast.LENGTH_LONG).show()
-            }?.addOnFailureListener {
-                Toast.makeText(this, "Fail deleted\n$it", Toast.LENGTH_LONG).show()
-            }
+            //delete user's exercises database
+            db?.collection("TraineeExercises/${me?.email.toString()}/MyExercises")?.get()
+                ?.addOnSuccessListener {
+                    it.forEach { it.reference.delete() }
+                }
+            db?.collection("TraineeExercises")
+                ?.document(me?.email.toString())?.delete()
 
             //delete users database
-//            db?.collection("Users")
-//                ?.document(me?.email.toString())?.delete()
+            db?.collection("Users")
+                ?.document(me?.email.toString())?.delete()
 
-            //val i = Intent(this, MainActivity::class.java)
-            //startActivity(i)
+            //delete video
+            storage!!.reference.child(path).delete().addOnSuccessListener {
+                //Toast.makeText(this, "deleted video", Toast.LENGTH_LONG).show()
+            }.addOnFailureListener {
+                //Toast.makeText(this, "fail delete video\n$it", Toast.LENGTH_LONG).show()
+            }
+
+            //go back to login page
+            val i = Intent(this, MainActivity::class.java)
+            startActivity(i)
             finish()
         }
+
     }
 
 }

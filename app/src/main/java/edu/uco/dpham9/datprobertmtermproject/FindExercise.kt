@@ -5,6 +5,7 @@ import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import edu.uco.dpham9.datprobertmtermproject.Model.ExerciseList
 import kotlinx.android.synthetic.main.activity_find_exercise.*
 import org.json.JSONObject
 import java.io.BufferedInputStream

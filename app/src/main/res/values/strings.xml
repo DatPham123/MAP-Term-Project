@@ -45,4 +45,6 @@
     <string name="err_success">Upload Successful</string>
     <string name="label_update">Update Exercise</string>
     <string name="label_deleteBtn">Delete Account</string>
+    <string name="label_playBtn">Play Video</string>
+    <string name="label_noVideo">No Video</string>
 </resources>
