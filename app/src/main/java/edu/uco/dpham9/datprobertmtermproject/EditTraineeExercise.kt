@@ -15,6 +15,7 @@ import edu.uco.dpham9.datprobertmtermproject.Model.TraineeExercise
 import edu.uco.dpham9.datprobertmtermproject.Users.EXTRA_EXERCISE
 import edu.uco.dpham9.datprobertmtermproject.Users.REQ_CODE_VIDEO
 import kotlinx.android.synthetic.main.activity_edit_trainee_exercise.*
+import java.sql.Timestamp
 
 class EditTraineeExercise : AppCompatActivity()
 {
@@ -58,7 +59,7 @@ class EditTraineeExercise : AppCompatActivity()
 
             val name = id_trainee_ex_title.text.toString().trim()
             val desc = id_trainee_ex_desc.text.toString().trim()
-            var url = id_videoUrl.text.toString().trim()
+            var path = id_videoUrl.text.toString().trim()
 
             if(name.isNullOrBlank() || name.isNullOrEmpty())
             {
@@ -68,9 +69,16 @@ class EditTraineeExercise : AppCompatActivity()
 
             if(videoUri != null)
             {
+                if(!myExercise.videoUrl.isNullOrEmpty() || !myExercise.videoUrl.isNullOrBlank()){
+                    storage!!.reference.child(myExercise.videoUrl).delete().addOnSuccessListener {
+                        //Toast.makeText(this, "deleted video", Toast.LENGTH_LONG).show()
+                    }.addOnFailureListener {
+                        //Toast.makeText(this, "fail delete video\n$it", Toast.LENGTH_LONG).show()
+                    }
+                }
                 //add video to storage
-                url = videoUri.toString()
-                val path = "Videos/" + mAuth?.currentUser?.email
+                //url = videoUri.toString()
+                 path = "Videos/" + "${mAuth?.currentUser?.email}/" + Timestamp(System.currentTimeMillis())
                 val video = storage?.getReference(path)
 
                 video?.putFile(videoUri!!)?.addOnSuccessListener {
@@ -84,7 +92,7 @@ class EditTraineeExercise : AppCompatActivity()
             //add trainee exercise to database
             db?.collection("TraineeExercises/${mAuth?.currentUser?.email}/MyExercises")
                 ?.document(myExercise.name)
-                ?.set(TraineeExercise(name, desc, url, mAuth?.currentUser?.uid.toString()))
+                ?.set(TraineeExercise(name, desc, path, mAuth?.currentUser?.uid.toString()))
                 ?.addOnSuccessListener {
                     Toast.makeText(this, R.string.err_exUpdated, Toast.LENGTH_SHORT).show()
 
@@ -120,18 +128,15 @@ class EditTraineeExercise : AppCompatActivity()
                     }
 
                     //**DELETE VIDEO FROM STORAGE?**//
-//                // Create a storage reference from our app
-//                val storageRef = storage.reference
-//
-//                // Create a reference to the file to delete
-//                val desertRef = storageRef.child("images/desert.jpg")
-//
-//                // Delete the file
-//                desertRef.delete().addOnSuccessListener {
-//                    // File deleted successfully
-//                }.addOnFailureListener {
-//                    // Uh-oh, an error occurred!
-//                }
+                //delete video
+                if(!myExercise.videoUrl.isNullOrEmpty() || !myExercise.videoUrl.isNullOrBlank()){
+                    storage!!.reference.child(myExercise.videoUrl).delete().addOnSuccessListener {
+                        //Toast.makeText(this, "deleted video", Toast.LENGTH_LONG).show()
+                    }.addOnFailureListener {
+                        //Toast.makeText(this, "fail delete video\n$it", Toast.LENGTH_LONG).show()
+                    }
+                }
+
             }
 
             alertBuilder.setNeutralButton("CANCEL"){_,_->
@@ -139,6 +144,18 @@ class EditTraineeExercise : AppCompatActivity()
 
             val alert = alertBuilder.create()
             alert.show()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?)
+    {
+        if (requestCode == REQ_CODE_VIDEO && resultCode == RESULT_OK)
+        {
+            videoUri = intent?.data
+            //Toast.makeText(this, intent?.data?.encodedPath, Toast.LENGTH_LONG).show()
+            //var fileName = videoUri.toString().substring(videoUri.toString()
+            //.lastIndexOf("/")+1)
+            id_videoUrl.text = "${getString(R.string.label_filename)} $videoUri"
         }
     }
 }

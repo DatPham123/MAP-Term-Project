@@ -43,7 +43,13 @@ class ManageAccount : AppCompatActivity() {
             //delete user's exercises database
             db?.collection("TraineeExercises/${me?.email.toString()}/MyExercises")?.get()
                 ?.addOnSuccessListener {
-                    it.forEach { it.reference.delete() }
+                    it.forEach {
+                        storage!!.reference.child(it["videoUrl"].toString()).delete().addOnSuccessListener {
+                            //Toast.makeText(this, "deleted video", Toast.LENGTH_LONG).show()
+                        }.addOnFailureListener {
+                            //Toast.makeText(this, "fail delete video\n$it", Toast.LENGTH_LONG).show()
+                        }
+                        it.reference.delete() }
                 }
             db?.collection("TraineeExercises")
                 ?.document(me?.email.toString())?.delete()

@@ -14,6 +14,7 @@ import com.google.firebase.storage.FirebaseStorage
 import edu.uco.dpham9.datprobertmtermproject.Model.TraineeExercise
 import edu.uco.dpham9.datprobertmtermproject.Users.REQ_CODE_VIDEO
 import kotlinx.android.synthetic.main.activity_add_trainee_exercise.*
+import java.sql.Timestamp
 
 
 class AddTraineeExercise : AppCompatActivity()
@@ -50,7 +51,7 @@ class AddTraineeExercise : AppCompatActivity()
             //add exercise to database/recyclerview
             val name = id_trainee_ex_title.text.toString().trim()
             val desc = id_trainee_ex_desc.text.toString().trim()
-            var url = ""
+            var path = ""
 
             if(name.isNullOrBlank() || name.isNullOrEmpty())
             {
@@ -61,9 +62,9 @@ class AddTraineeExercise : AppCompatActivity()
             //add video to storage
             if(videoUri != null)
             {
-                url = videoUri.toString()
+                //url = videoUri.toString()
                 //add video to storage
-                val path = "Videos/" + mAuth?.currentUser?.email
+                path = "Videos/" + "${mAuth?.currentUser?.email}/" + Timestamp(System.currentTimeMillis())
                 val video = storage?.getReference(path)
 
                 video?.putFile(videoUri!!)?.addOnSuccessListener {
@@ -76,7 +77,7 @@ class AddTraineeExercise : AppCompatActivity()
             //add trainee exercise to database
             db?.collection("TraineeExercises/${mAuth?.currentUser?.email.toString()}/MyExercises")
                 ?.document(name)
-                ?.set(TraineeExercise(name, desc, url, mAuth?.currentUser?.uid.toString()))
+                ?.set(TraineeExercise(name, desc, path, mAuth?.currentUser?.uid.toString()))
                 ?.addOnSuccessListener {
                     Toast.makeText(this, R.string.err_newExAdded, Toast.LENGTH_SHORT).show()
                     val data = Intent()
