@@ -89,21 +89,29 @@ class EditTraineeExercise : AppCompatActivity()
             }
 
 
-            //add trainee exercise to database
             db?.collection("TraineeExercises/${mAuth?.currentUser?.email}/MyExercises")
-                ?.document(myExercise.name)
-                ?.set(TraineeExercise(name, desc, path, mAuth?.currentUser?.uid.toString()))
+                ?.document(myExercise.name)?.delete()
                 ?.addOnSuccessListener {
-                    Toast.makeText(this, R.string.err_exUpdated, Toast.LENGTH_SHORT).show()
+                    db?.collection("TraineeExercises/${mAuth?.currentUser?.email}/MyExercises")
+                        ?.document(name)
+                        ?.set(TraineeExercise(name, desc, path, mAuth?.currentUser?.uid.toString()))
+                        ?.addOnSuccessListener {
+                            Toast.makeText(this, R.string.err_exUpdated, Toast.LENGTH_SHORT).show()
 
-                    val i = Intent()
-                    setResult(Activity.RESULT_OK, i)
+                            val i = Intent()
+                            setResult(Activity.RESULT_OK, i)
 
-                    finish()
+                            finish()
+                        }
+                        ?.addOnFailureListener { ex: Exception ->
+                            Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show()
+                        }
                 }
                 ?.addOnFailureListener { ex: Exception ->
                     Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show()
                 }
+
+
         }
 
         id_delete_ex.setOnClickListener {
