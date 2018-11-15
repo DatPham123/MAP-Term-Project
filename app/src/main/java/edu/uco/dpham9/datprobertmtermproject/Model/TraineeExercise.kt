@@ -10,7 +10,7 @@ class TraineeExercise(var name: String, var description: String, var videoUrl: S
 
     //traineeId refers to User: userId
     val exerciseId = java.util.UUID.randomUUID().toString() //randomly generated string
-    var rating: Int = 0
+    var rating: Float = 0.0f
 
     constructor(parcel: Parcel) : this(
         parcel.readString(),
@@ -18,7 +18,7 @@ class TraineeExercise(var name: String, var description: String, var videoUrl: S
         parcel.readString(),
         parcel.readString()
     ) {
-        rating = parcel.readInt()
+        rating = parcel.readFloat()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -26,7 +26,7 @@ class TraineeExercise(var name: String, var description: String, var videoUrl: S
         parcel.writeString(description)
         parcel.writeString(videoUrl)
         parcel.writeString(traineeId)
-        parcel.writeInt(rating)
+        parcel.writeFloat(rating)
     }
 
     override fun describeContents(): Int {

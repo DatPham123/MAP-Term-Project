@@ -27,6 +27,7 @@ import kotlinx.android.synthetic.main.content_user_home.*
 const val REQ_CODE_VIDEO = 1
 const val REQ_CODE_ADD_EX = 2
 const val REQ_CODE_EDIT_EX = 3
+const val REQ_CODE_RATING = 4
 const val EXTRA_EXERCISE = "trainee_exercise"
 
 const val TAG = "local"
@@ -135,7 +136,7 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         nav.findItem(R.id.nav_find_exercise).isVisible = true
         nav.findItem(R.id.nav_manage_account).isVisible = true
         nav.findItem(R.id.nav_my_trainer).isVisible = true
-        nav.findItem(R.id.nav_my_exercise).isVisible = false
+        //nav.findItem(R.id.nav_my_exercise).isVisible = false
         fab.show()
     }
 
@@ -146,9 +147,9 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         userType.text = getString(R.string.label_trainerType)
         val nav = findViewById<NavigationView>(R.id.nav_view).menu
         nav.findItem(R.id.nav_find_exercise).isVisible = true
-        nav.findItem(R.id.nav_manage_account).isVisible = false
+        nav.findItem(R.id.nav_manage_account).isVisible = true
         nav.findItem(R.id.nav_my_trainer).isVisible = false
-        nav.findItem(R.id.nav_my_exercise).isVisible = false
+        //nav.findItem(R.id.nav_my_exercise).isVisible = false
         fab.hide()
     }
 
@@ -156,7 +157,7 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
     {
         if(resultCode != Activity.RESULT_OK)
             return
-        if(requestCode == REQ_CODE_ADD_EX || requestCode == REQ_CODE_EDIT_EX)
+        if(requestCode == REQ_CODE_ADD_EX || requestCode == REQ_CODE_EDIT_EX || requestCode == REQ_CODE_RATING)
         {
             initRecyclerView(true)
         }
@@ -195,9 +196,9 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
 //                val i = Intent(this, FindExercise::class.java)
 //                startActivity(i)
             }
-            R.id.nav_my_exercise -> {
-
-            }
+//            R.id.nav_my_exercise -> {
+//
+//            }
             R.id.nav_my_trainer -> {
 
             }

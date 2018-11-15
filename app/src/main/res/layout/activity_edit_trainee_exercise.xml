@@ -63,6 +63,6 @@
             android:id="@+id/id_delete_ex" android:layout_marginTop="40dp"
             app:layout_constraintTop_toBottomOf="@+id/id_trainee_find_vidBtn"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.103"/>
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+    />
 </android.support.constraint.ConstraintLayout>

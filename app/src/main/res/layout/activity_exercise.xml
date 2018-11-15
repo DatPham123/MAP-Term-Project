@@ -10,28 +10,47 @@
     <VideoView
             android:id="@+id/id_videoView" android:layout_marginTop="8dp"
             android:layout_alignParentTop="true"
-            android:layout_width="match_parent" android:layout_height="223dp"/>
+            android:layout_height="223dp" android:layout_width="match_parent"/>
     <EditText
-            android:layout_width="328dp"
-            android:layout_height="152dp"
+            android:layout_width="356dp"
+            android:layout_height="wrap_content"
             android:inputType="textMultiLine|textPersonName"
             android:ems="10"
             android:id="@+id/id_commentBlock"
-            android:layout_marginEnd="27dp"
-            android:layout_marginStart="29dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginStart="14dp"
             android:hint="@string/label_commentBlock"
-            android:textAlignment="center" android:layout_marginTop="9dp" android:layout_below="@+id/id_videoView"
-            android:layout_alignParentEnd="true" android:layout_alignParentStart="true"/>
+            android:textAlignment="center"
+            android:layout_alignParentEnd="true" android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true" android:layout_marginBottom="63dp" android:layout_marginTop="15dp"
+            android:layout_below="@+id/id_commentList"/>
     <Button
-            android:layout_width="126dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/id_playBtn" android:layout_marginTop="14dp"
-            android:layout_marginStart="132dp" android:text="@string/label_playBtn"
-            android:layout_below="@+id/id_commentBlock" android:layout_alignParentEnd="true"
-            android:layout_marginEnd="126dp" android:layout_alignParentStart="true" android:textAlignment="center"/>
+            android:id="@+id/id_playBtn"
+            android:text="@string/label_playBtn"
+            android:textAlignment="center"
+            android:layout_alignParentStart="true" android:layout_below="@+id/id_commentBlock"
+            android:layout_marginStart="48dp" android:layout_marginTop="-63dp"/>
     <TextView
             android:layout_width="107dp"
             android:layout_height="29dp"
-            android:layout_alignParentTop="true" android:id="@+id/id_noVideo" android:layout_marginTop="101dp"
-            android:textColor="@color/colorAccent" android:layout_alignEnd="@+id/id_playBtn"/>
+            android:layout_alignParentTop="true" android:id="@+id/id_noVideo" android:layout_marginTop="98dp"
+            android:textColor="@color/colorAccent" android:layout_alignEnd="@+id/id_videoView"
+            android:layout_marginEnd="139dp" android:layout_marginStart="138dp"
+            android:layout_alignStart="@+id/id_videoView"/>
+    <Button
+            android:layout_width="138dp"
+            android:layout_height="52dp" android:id="@+id/id_addCmtBtn"
+            android:text="@string/label_addCmtBtn" android:layout_below="@+id/id_commentBlock"
+            android:layout_alignParentEnd="true" android:layout_marginEnd="39dp" android:layout_marginTop="-63dp"/>
+    <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="46dp" android:layout_centerHorizontal="true"
+            android:id="@+id/id_ratingBar" android:layout_marginTop="10dp" android:layout_below="@+id/id_videoView"/>
+    <ListView
+            android:layout_width="match_parent"
+            android:layout_height="90dp" android:layout_centerHorizontal="true"
+            android:layout_marginTop="11dp"
+            android:layout_below="@+id/id_ratingBar" android:scrollbars="vertical" android:id="@+id/id_commentList"/>
 </RelativeLayout>

@@ -50,4 +50,6 @@
     <string name="err_exUpdated">Exercise Updated!</string>
     <string name="label_delete_ex">Delete Exercise</string>
     <string name="err_deleteExSuccess">Exercise Deleted!</string>
+    <string name="label_addCmtBtn"><![CDATA[Add Comment & Rating]]></string>
+    <string name="err_rated">Rated</string>
 </resources>
