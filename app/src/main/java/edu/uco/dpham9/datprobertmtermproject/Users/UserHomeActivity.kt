@@ -8,18 +8,17 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.uco.dpham9.datprobertmtermproject.*
 import edu.uco.dpham9.datprobertmtermproject.Model.TraineeExercise
 import edu.uco.dpham9.datprobertmtermproject.Model.TraineeExerciseListAdapter
-import edu.uco.dpham9.datprobertmtermproject.Model.UserAuth
+import edu.uco.dpham9.datprobertmtermproject.Model.User
+import edu.uco.dpham9.datprobertmtermproject.Model.UserListAdapter
 import kotlinx.android.synthetic.main.activity_user_home.*
 import kotlinx.android.synthetic.main.app_bar_user_home.*
 import kotlinx.android.synthetic.main.content_user_home.*
@@ -40,7 +39,7 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
     private var db: FirebaseFirestore? = null
 
     private var myExercises = ArrayList<TraineeExercise>()
-    private var myTrainees = ArrayList<String>()
+    private var myTrainees: ArrayList<User>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +57,7 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
             ?.addOnCompleteListener {
                 if(it.isSuccessful)
                 {
-                    val isTrainee = it.result!!.documents[0]!!.toObject(UserAuth::class.java)!!.isTrainee
+                    val isTrainee = it.result!!.documents[0]!!.toObject(User::class.java)!!.isTrainee
                     initNavMenuDisplay(isTrainee)
                     initRecyclerView(isTrainee)
                 }
@@ -108,9 +107,18 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         }
         else
         {
-            /******UNDER CONSTRUCTION*********/
-            id_user_recyclerView.adapter = TraineeExerciseListAdapter(this, myExercises)
-            /******UNDER CONSTRUCTION********/
+            db?.collection("Users")
+                ?.whereEqualTo("trainerId", mAuth?.currentUser?.uid)
+                ?.get()
+                ?.addOnSuccessListener {
+                    for(docSnapShot in it)
+                    {
+                        myTrainees!!.add(docSnapShot.toObject(User::class.java))
+                    }
+
+                    id_user_recyclerView.adapter = UserListAdapter(this, myTrainees!!)
+                    id_user_recyclerView.adapter?.notifyDataSetChanged()
+                }
         }
     }
 

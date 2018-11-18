@@ -2,12 +2,11 @@ package edu.uco.dpham9.datprobertmtermproject.Model
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.google.firebase.firestore.Exclude
 
 const val NO_EMAIL = "No Email"
 const val NO_PASS = "No PASSWORD"
-class UserAuth(var email: String, var password: String, var isTrainee: Boolean, var isTrainer: Boolean,
-               var id: String) : Parcelable
+class User(var email: String, var password: String, var isTrainee: Boolean, var isTrainer: Boolean,
+           var id: String) : Parcelable
 {
     constructor(): this("" , "" , false, false, "")
 
@@ -21,7 +20,9 @@ class UserAuth(var email: String, var password: String, var isTrainee: Boolean, 
         parcel.readByte() != 0.toByte(),
         parcel.readString()
     )
-
+    {
+        trainerId = parcel.readString()
+    }
 
     init {
 
@@ -53,13 +54,15 @@ class UserAuth(var email: String, var password: String, var isTrainee: Boolean, 
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<UserAuth> {
-        override fun createFromParcel(parcel: Parcel): UserAuth {
-            return UserAuth(parcel)
+    companion object CREATOR : Parcelable.Creator<User> {
+        override fun createFromParcel(parcel: Parcel): User {
+            return User(parcel)
         }
 
-        override fun newArray(size: Int): Array<UserAuth?> {
+        override fun newArray(size: Int): Array<User?> {
             return arrayOfNulls(size)
         }
     }
+
+    override fun toString(): String = email
 }
