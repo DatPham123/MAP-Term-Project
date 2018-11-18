@@ -3,12 +3,14 @@ package edu.uco.dpham9.datprobertmtermproject.Users
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import edu.uco.dpham9.datprobertmtermproject.MainActivity
 import edu.uco.dpham9.datprobertmtermproject.R
-import edu.uco.dpham9.datprobertmtermproject.Model.UserAuth
+import edu.uco.dpham9.datprobertmtermproject.Model.User
 import kotlinx.android.synthetic.main.activity_user_sign_up.*
 
 class UserSignUp : AppCompatActivity()
@@ -31,8 +33,8 @@ class UserSignUp : AppCompatActivity()
         id_signupUserBtn.setOnClickListener {
             val email = id_emailSignup.text.toString().trim()
             val password = id_passwordSignUp.text.toString().trim()
-            var trainee = id_traineeSignUpRad.isChecked
-            var trainer = id_trainerSignUpRad.isChecked
+            var isTrainee = id_traineeSignUpRad.isChecked
+            var isTrainer = id_trainerSignUpRad.isChecked
 
             if(email.isNullOrEmpty() || email.isNullOrBlank())
             {
@@ -52,19 +54,84 @@ class UserSignUp : AppCompatActivity()
 
             mAuth?.createUserWithEmailAndPassword(email, password)
                 ?.addOnCompleteListener(this) {
-                    if(it.isSuccessful){
-                        var userField = UserAuth(email, password, trainee, trainer, mAuth?.currentUser!!.uid)
-                        db?.collection("Users")?.document("$email")?.set(userField)
-                            ?.addOnCompleteListener {
-                                Toast.makeText(this,
-                                    R.string.err_sign_up_successful, Toast.LENGTH_SHORT).show()
-                                val i = Intent(this, MainActivity::class.java)
-                                startActivity(i)
-                                finish()
-                            }
-                            ?.addOnFailureListener {
-                                Toast.makeText(this, getString(R.string.err_sign_up_failed, it), Toast.LENGTH_SHORT).show()
-                            }
+                    if(it.isSuccessful)
+                    {
+                        if(isTrainee)
+                        {
+                            db?.collection("Users")
+                                ?.whereEqualTo("isTrainer", true)
+                                ?.orderBy("traineeIds", Query.Direction.ASCENDING)
+                                ?.get()
+                                ?.addOnSuccessListener {
+                                    var trainers = ArrayList<User>()
+
+                                    for (docSnapShot in it)
+                                    {
+                                        trainers.add(docSnapShot.toObject(User::class.java))
+                                    }
+
+                                    var trainerWithLeastTrainees = trainers[0]
+                                    var index = 1
+                                    while(index < trainers.size)
+                                    {
+                                        if(trainers[index].traineeIds!!.size <
+                                            trainerWithLeastTrainees.traineeIds!!.size)
+                                        {
+                                            trainerWithLeastTrainees = trainers[index]
+                                        }
+                                    }
+
+                                    var userField = User(email, password, isTrainee, isTrainer,
+                                        mAuth?.currentUser!!.uid)
+                                    userField.trainerId = trainerWithLeastTrainees.id
+
+                                    db?.collection("Users")?.document("$email")
+                                        ?.set(userField)
+                                        ?.addOnCompleteListener {
+                                            Toast.makeText(this,
+                                                R.string.err_sign_up_successful, Toast.LENGTH_SHORT).show()
+
+                                            db?.collection("Users")
+                                                ?.whereEqualTo("id", userField.trainerId)
+                                                ?.get()
+                                                ?.addOnSuccessListener {
+                                                    var trainer = it.documents[0].toObject(User::class.java)
+                                                    var traineeIds = trainer!!.traineeIds
+                                                    traineeIds!!.add(userField.id)
+
+                                                    db?.collection("Users")?.document(trainer.id)
+                                                        ?.update("traineeIds", traineeIds)
+                                                }
+
+                                            val i = Intent(this, MainActivity::class.java)
+                                            startActivity(i)
+                                            finish()
+                                        }
+                                        ?.addOnFailureListener {
+                                            Toast.makeText(this, getString(R.string.err_sign_up_failed,
+                                                it), Toast.LENGTH_SHORT).show()
+                                        }
+                                }
+                        }
+                        else
+                        {
+                            var userField = User(email, password, isTrainee, isTrainer,
+                                mAuth?.currentUser!!.uid)
+                            db?.collection("Users")?.document("$email")
+                                ?.set(userField)
+                                ?.addOnCompleteListener {
+                                    Toast.makeText(this,
+                                        R.string.err_sign_up_successful, Toast.LENGTH_SHORT).show()
+                                    val i = Intent(this, MainActivity::class.java)
+                                    startActivity(i)
+                                    finish()
+                                }
+                                ?.addOnFailureListener {
+                                    Toast.makeText(this, getString(R.string.err_sign_up_failed, it),
+                                        Toast.LENGTH_SHORT).show()
+                                }
+                        }
+
                     }
                     else{
                         val m = it.exception
