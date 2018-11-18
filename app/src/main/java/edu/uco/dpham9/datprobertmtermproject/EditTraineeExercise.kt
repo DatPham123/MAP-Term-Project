@@ -94,7 +94,8 @@ class EditTraineeExercise : AppCompatActivity()
                 ?.addOnSuccessListener {
                     db?.collection("TraineeExercises/${mAuth?.currentUser?.email}/MyExercises")
                         ?.document(name)
-                        ?.set(TraineeExercise(name, desc, path, mAuth?.currentUser?.uid.toString()))
+                        ?.set(TraineeExercise(name, desc, path, myExercise.traineeId, myExercise.exerciseId,
+                            myExercise.rating))
                         ?.addOnSuccessListener {
                             Toast.makeText(this, R.string.err_exUpdated, Toast.LENGTH_SHORT).show()
 

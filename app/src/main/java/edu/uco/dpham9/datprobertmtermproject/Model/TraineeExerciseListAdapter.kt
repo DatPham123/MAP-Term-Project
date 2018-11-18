@@ -13,8 +13,8 @@ import edu.uco.dpham9.datprobertmtermproject.EditTraineeExercise
 import edu.uco.dpham9.datprobertmtermproject.ExerciseActivity
 import edu.uco.dpham9.datprobertmtermproject.R
 import edu.uco.dpham9.datprobertmtermproject.Users.EXTRA_EXERCISE
+import edu.uco.dpham9.datprobertmtermproject.Users.REQ_CODE_COMMENT
 import edu.uco.dpham9.datprobertmtermproject.Users.REQ_CODE_EDIT_EX
-import edu.uco.dpham9.datprobertmtermproject.Users.REQ_CODE_RATING
 
 class TraineeExerciseListAdapter(val context: Context, var traineeExercises: ArrayList<TraineeExercise>)
     : RecyclerView.Adapter<TraineeExerciseListAdapter.ViewHolder>()
@@ -52,7 +52,7 @@ class TraineeExerciseListAdapter(val context: Context, var traineeExercises: Arr
                 val i = Intent(context, ExerciseActivity::class.java)
                 i.putExtra(EXTRA_EXERCISE, traineeExercises[position])
                 if(context is Activity)
-                    context.startActivityForResult(i, REQ_CODE_RATING)
+                    context.startActivityForResult(i, REQ_CODE_COMMENT)
             }
 
             //itemView represents 1 card entry
