@@ -27,7 +27,6 @@ import kotlinx.android.synthetic.main.content_user_home.*
 const val REQ_CODE_VIDEO = 1
 const val REQ_CODE_ADD_EX = 2
 const val REQ_CODE_EDIT_EX = 3
-const val REQ_CODE_RATING = 4
 const val REQ_CODE_COMMENT = 5
 const val EXTRA_EXERCISE = "trainee_exercise"
 const val EXTRA_TRAINER_LOGGED_IN = "trainer_logged_in"
@@ -35,7 +34,7 @@ const val EXTRA_TRAINEE_EMAIL = "trainee_email"
 
 const val TAG = "local"
 
-class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener
+class UserHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener
 {
     private var mAuth: FirebaseAuth? = null
     private var db: FirebaseFirestore? = null
@@ -55,7 +54,6 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
 
         //check if user is a trainer coming from original homepage
         val trainerIsLoggedIn = intent.getBooleanExtra(EXTRA_TRAINER_LOGGED_IN, false)
-        val traineeEmail = intent.getStringExtra(EXTRA_TRAINEE_EMAIL)
 
         if(trainerIsLoggedIn)
         {
@@ -136,7 +134,6 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
                     {
                         myTrainees.add(docSnapShot.toObject(User::class.java))
                     }
-
                     id_user_recyclerView.adapter = UserListAdapter(this, myTrainees)
                     id_user_recyclerView.adapter?.notifyDataSetChanged()
 
@@ -167,7 +164,16 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         //nav.findItem(R.id.nav_find_exercise).isVisible = true
         nav.findItem(R.id.nav_manage_account).isVisible = true
         nav.findItem(R.id.nav_my_trainer).isVisible = true
-        //nav.findItem(R.id.nav_my_exercise).isVisible = false
+        nav.findItem(R.id.nav_my_trainer).isCheckable = false
+        db?.collection("Users")?.document(mAuth?.currentUser?.email!!)?.get()
+            ?.addOnSuccessListener {
+                db?.collection("Users")?.whereEqualTo("id", it["trainerId"])?.get()
+                    ?.addOnSuccessListener {
+                        var title = nav.findItem(R.id.nav_trainer_info).title.toString()
+                        title = "$title${it.documents[0]["email"]}"
+                        nav.findItem(R.id.nav_trainer_info).title = title
+                    }
+            }
         fab.show()
     }
 
@@ -179,8 +185,8 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         val nav = findViewById<NavigationView>(R.id.nav_view).menu
         //nav.findItem(R.id.nav_find_exercise).isVisible = true
         nav.findItem(R.id.nav_manage_account).isVisible = true
+        nav.findItem(R.id.nav_trainer_info).isVisible = false
         nav.findItem(R.id.nav_my_trainer).isVisible = false
-        //nav.findItem(R.id.nav_my_exercise).isVisible = false
         fab.hide()
     }
 

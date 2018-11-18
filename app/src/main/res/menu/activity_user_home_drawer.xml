@@ -3,19 +3,26 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single" android:id="@+id/id_trainer_info_group">
         <!--<item-->
-                <!--android:id="@+id/nav_find_exercise"-->
-                <!--android:icon="@drawable/ic_search_exercise_24dp"-->
-                <!--android:title="@string/label_hamburger_find_exercise"/>-->
+        <!--android:id="@+id/nav_find_exercise"-->
+        <!--android:icon="@drawable/ic_search_exercise_24dp"-->
+        <!--android:title="@string/label_hamburger_find_exercise"/>-->
         <!--<item-->
-                <!--android:id="@+id/nav_my_exercise"-->
-                <!--android:icon="@drawable/ic_my_exercise"-->
-                <!--android:title="@string/label_hamburger_my_exercise"/>-->
+        <!--android:id="@+id/nav_my_exercise"-->
+        <!--android:icon="@drawable/ic_my_exercise"-->
+        <!--android:title="@string/label_hamburger_my_exercise"/>-->
         <item
                 android:id="@+id/nav_my_trainer"
                 android:icon="@drawable/ic_my_trainer"
                 android:title="@string/label_hamburger_my_trainer"/>
+        <group
+                android:id="@+id/id_subgroup"
+        >
+            <item
+                    android:id="@+id/nav_trainer_info"
+                    android:title="@string/label_trainer_info"/>
+        </group>
     </group>
 
     <item android:title="Communicate">

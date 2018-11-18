@@ -3,6 +3,7 @@ package edu.uco.dpham9.datprobertmtermproject.Model
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.opengl.Visibility
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +13,7 @@ import android.widget.TextView
 import edu.uco.dpham9.datprobertmtermproject.EditTraineeExercise
 import edu.uco.dpham9.datprobertmtermproject.ExerciseActivity
 import edu.uco.dpham9.datprobertmtermproject.R
-import edu.uco.dpham9.datprobertmtermproject.Users.EXTRA_EXERCISE
-import edu.uco.dpham9.datprobertmtermproject.Users.REQ_CODE_COMMENT
-import edu.uco.dpham9.datprobertmtermproject.Users.REQ_CODE_EDIT_EX
+import edu.uco.dpham9.datprobertmtermproject.Users.*
 
 class TraineeExerciseListAdapter(val context: Context, var traineeExercises: ArrayList<TraineeExercise>)
     : RecyclerView.Adapter<TraineeExerciseListAdapter.ViewHolder>()
@@ -48,11 +47,25 @@ class TraineeExerciseListAdapter(val context: Context, var traineeExercises: Arr
             nameView.text = traineeExercises[position].name
             descView.text = traineeExercises[position].description
 
+            if(context is Activity)
+            {
+                if(context.intent.hasExtra(EXTRA_TRAINER_LOGGED_IN))
+                {
+                    editBtn.isEnabled = false
+                    editBtn.visibility = View.GONE
+                }
+            }
+
             itemView.setOnClickListener {
                 val i = Intent(context, ExerciseActivity::class.java)
                 i.putExtra(EXTRA_EXERCISE, traineeExercises[position])
                 if(context is Activity)
+                {
+                    i.putExtra(EXTRA_TRAINEE_EMAIL, context.intent.getStringExtra(EXTRA_TRAINEE_EMAIL))
+                    i.putExtra(EXTRA_TRAINER_LOGGED_IN, context.intent.getBooleanExtra(EXTRA_TRAINER_LOGGED_IN,
+                        false))
                     context.startActivityForResult(i, REQ_CODE_COMMENT)
+                }
             }
 
             //itemView represents 1 card entry

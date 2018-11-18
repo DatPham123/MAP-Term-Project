@@ -7,12 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import edu.uco.dpham9.datprobertmtermproject.R
 import edu.uco.dpham9.datprobertmtermproject.Users.EXTRA_TRAINEE_EMAIL
 import edu.uco.dpham9.datprobertmtermproject.Users.EXTRA_TRAINER_LOGGED_IN
-import edu.uco.dpham9.datprobertmtermproject.Users.TraineeHomeActivity
-import kotlinx.android.synthetic.main.content_user_home.*
+import edu.uco.dpham9.datprobertmtermproject.Users.UserHomeActivity
 
 class UserListAdapter(var context: Context, var users: ArrayList<User>) :
     RecyclerView.Adapter<UserListAdapter.ViewHolder>()
@@ -44,7 +42,7 @@ class UserListAdapter(var context: Context, var users: ArrayList<User>) :
             emailView.text = users[position].email
 
             itemView.setOnClickListener {
-                val i = Intent(context, TraineeHomeActivity::class.java)
+                val i = Intent(context, UserHomeActivity::class.java)
                 i.putExtra(EXTRA_TRAINER_LOGGED_IN, true)
                 i.putExtra(EXTRA_TRAINEE_EMAIL, users[position].email)
                 context.startActivity(i)

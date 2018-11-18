@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import edu.uco.dpham9.datprobertmtermproject.Users.TraineeHomeActivity
+import edu.uco.dpham9.datprobertmtermproject.Users.UserHomeActivity
 import edu.uco.dpham9.datprobertmtermproject.Users.UserSignUp
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity()
                         if (it.isSuccessful)
                         {
                             Toast.makeText(this, R.string.err_signIn, Toast.LENGTH_SHORT).show()
-                            val i = Intent(this, TraineeHomeActivity::class.java)
+                            val i = Intent(this, UserHomeActivity::class.java)
                             startActivity(i)
                             finish()
                         }
