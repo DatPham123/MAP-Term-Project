@@ -28,6 +28,7 @@ const val REQ_CODE_VIDEO = 1
 const val REQ_CODE_ADD_EX = 2
 const val REQ_CODE_EDIT_EX = 3
 const val REQ_CODE_RATING = 4
+const val REQ_CODE_COMMENT = 5
 const val EXTRA_EXERCISE = "trainee_exercise"
 
 const val TAG = "local"
@@ -157,7 +158,7 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
     {
         if(resultCode != Activity.RESULT_OK)
             return
-        if(requestCode == REQ_CODE_ADD_EX || requestCode == REQ_CODE_EDIT_EX || requestCode == REQ_CODE_RATING)
+        if(requestCode == REQ_CODE_ADD_EX || requestCode == REQ_CODE_EDIT_EX || requestCode == REQ_CODE_COMMENT)
         {
             initRecyclerView(true)
         }

@@ -4,28 +4,31 @@ import android.os.Parcel
 import android.os.Parcelable
 
 class TraineeExercise(var name: String, var description: String, var videoUrl: String,
-                      val traineeId: String) : Parcelable
+                      val traineeId: String,
+                      val exerciseId: String = java.util.UUID.randomUUID().toString(),
+                      var rating: Float =0F) : Parcelable
 {
-    constructor() : this("", "", "", "")
+    constructor() : this("", "", "", "", "", 0F)
 
     //traineeId refers to User: userId
-    val exerciseId = java.util.UUID.randomUUID().toString() //randomly generated string
-    var rating: Float = 0.0f
+    //var exerciseId = java.util.UUID.randomUUID().toString() //randomly generated string
+    //var rating: Float = 0.0f
 
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readString()
-    ) {
-        rating = parcel.readFloat()
-    }
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readFloat()
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)
         parcel.writeString(description)
         parcel.writeString(videoUrl)
         parcel.writeString(traineeId)
+        parcel.writeString(exerciseId)
         parcel.writeFloat(rating)
     }
 
