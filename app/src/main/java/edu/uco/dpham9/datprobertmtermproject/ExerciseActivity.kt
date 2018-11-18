@@ -78,6 +78,7 @@ class ExerciseActivity : AppCompatActivity() {
 
 
         //rating
+        
         id_ratingBar.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
             db?.collection("TraineeExercises/${mAuth?.currentUser?.email.toString()}/MyExercises")
                 ?.document(myExercise.name)
