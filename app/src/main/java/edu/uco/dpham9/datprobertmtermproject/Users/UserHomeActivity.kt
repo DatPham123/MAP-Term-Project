@@ -8,6 +8,7 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
@@ -29,17 +30,18 @@ const val REQ_CODE_EDIT_EX = 3
 const val REQ_CODE_RATING = 4
 const val REQ_CODE_COMMENT = 5
 const val EXTRA_EXERCISE = "trainee_exercise"
+const val EXTRA_TRAINER_LOGGED_IN = "trainer_logged_in"
+const val EXTRA_TRAINEE_EMAIL = "trainee_email"
 
 const val TAG = "local"
 
 class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener
 {
-
     private var mAuth: FirebaseAuth? = null
     private var db: FirebaseFirestore? = null
 
     private var myExercises = ArrayList<TraineeExercise>()
-    private var myTrainees: ArrayList<User>? = null
+    private var myTrainees = ArrayList<User>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,21 +53,33 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
 
         val currentUser = mAuth?.currentUser
 
-        db?.collection("Users")
-            ?.whereEqualTo("id", currentUser!!.uid)
-            ?.get()
-            ?.addOnCompleteListener {
-                if(it.isSuccessful)
-                {
-                    val isTrainee = it.result!!.documents[0]!!.toObject(User::class.java)!!.isTrainee
-                    initNavMenuDisplay(isTrainee)
-                    initRecyclerView(isTrainee)
+        //check if user is a trainer coming from original homepage
+        val trainerIsLoggedIn = intent.getBooleanExtra(EXTRA_TRAINER_LOGGED_IN, false)
+        val traineeEmail = intent.getStringExtra(EXTRA_TRAINEE_EMAIL)
+
+        if(trainerIsLoggedIn)
+        {
+            initNavMenuDisplay(false)
+            initRecyclerView(true)
+        }
+        else
+        {
+            db?.collection("Users")
+                ?.whereEqualTo("id", currentUser!!.uid)
+                ?.get()
+                ?.addOnCompleteListener {
+                    if(it.isSuccessful)
+                    {
+                        val isTrainee = it.result!!.documents[0]!!.toObject(User::class.java)!!.trainee
+                        initNavMenuDisplay(isTrainee)
+                        initRecyclerView(isTrainee)
+                    }
                 }
-            }
-            ?.addOnFailureListener {
-                Toast.makeText(this, it.toString(), Toast.LENGTH_LONG).show()
-                finish()
-            }
+                ?.addOnFailureListener {
+                    Toast.makeText(this, it.toString(), Toast.LENGTH_LONG).show()
+                    finish()
+                }
+        }
 
         fab.setOnClickListener { view ->
             //Launch Add Trainee Exercise
@@ -89,7 +103,13 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         id_user_recyclerView.layoutManager = LinearLayoutManager(this)
         if(isTrainee)
         {
-            db?.collection("TraineeExercises/${mAuth?.currentUser?.email}/MyExercises")
+            var traineeEmail: String? =
+            if(intent.getBooleanExtra(EXTRA_TRAINER_LOGGED_IN, false))
+                intent.getStringExtra(EXTRA_TRAINEE_EMAIL)
+            else
+                mAuth?.currentUser?.email
+
+            db?.collection("TraineeExercises/$traineeEmail/MyExercises")
                 ?.get()
                 ?.addOnSuccessListener {
                     myExercises.clear()
@@ -111,13 +131,15 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
                 ?.whereEqualTo("trainerId", mAuth?.currentUser?.uid)
                 ?.get()
                 ?.addOnSuccessListener {
-                    for(docSnapShot in it)
+
+                    for (docSnapShot in it)
                     {
-                        myTrainees!!.add(docSnapShot.toObject(User::class.java))
+                        myTrainees.add(docSnapShot.toObject(User::class.java))
                     }
 
-                    id_user_recyclerView.adapter = UserListAdapter(this, myTrainees!!)
+                    id_user_recyclerView.adapter = UserListAdapter(this, myTrainees)
                     id_user_recyclerView.adapter?.notifyDataSetChanged()
+
                 }
         }
     }
@@ -170,7 +192,6 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         {
             initRecyclerView(true)
         }
-
     }
 
     override fun onBackPressed() {
@@ -178,7 +199,8 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
             drawer_layout.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
-            logOut()
+            if(!intent.getBooleanExtra(EXTRA_TRAINER_LOGGED_IN, false))
+                logOut()
         }
     }
 
