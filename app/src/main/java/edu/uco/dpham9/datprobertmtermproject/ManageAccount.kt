@@ -37,9 +37,7 @@ class ManageAccount : AppCompatActivity() {
             val me = mAuth?.currentUser
             val path = "Videos/" + mAuth?.currentUser?.email
 
-
-
-            //delete user's exercises database
+            //delete user's exercises database and video
             db?.collection("TraineeExercises/${me?.email.toString()}/MyExercises")?.get()
                 ?.addOnSuccessListener {
                     it.forEach {
@@ -55,6 +53,14 @@ class ManageAccount : AppCompatActivity() {
             db?.collection("TraineeExercises")
                 ?.document(me?.email.toString())?.delete()
 
+            //delete comment database
+            db?.collection("Comments/${mAuth?.currentUser?.email.toString()}/MyComments")
+                ?.get()?.addOnSuccessListener {
+                    it.forEach {
+                        it.reference.delete()
+                    }
+                }
+
             //delete users database
             db?.collection("Users")
                 ?.document(me?.email.toString())?.delete()
@@ -66,8 +72,8 @@ class ManageAccount : AppCompatActivity() {
                 //Toast.makeText(this, "fail delete video\n$it", Toast.LENGTH_LONG).show()
             }
 
-                //delete account from auth
-                me?.delete()
+            //delete account from auth
+            me?.delete()
 
             //go back to login page
             val i = Intent(this, MainActivity::class.java)
