@@ -134,7 +134,7 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         val userType = headerView.findViewById<TextView>(R.id.id_userType)
         userType.text = getString(R.string.label_traineeType)
         val nav = findViewById<NavigationView>(R.id.nav_view).menu
-        nav.findItem(R.id.nav_find_exercise).isVisible = true
+        //nav.findItem(R.id.nav_find_exercise).isVisible = true
         nav.findItem(R.id.nav_manage_account).isVisible = true
         nav.findItem(R.id.nav_my_trainer).isVisible = true
         //nav.findItem(R.id.nav_my_exercise).isVisible = false
@@ -147,7 +147,7 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         val userType = headerView.findViewById<TextView>(R.id.id_userType)
         userType.text = getString(R.string.label_trainerType)
         val nav = findViewById<NavigationView>(R.id.nav_view).menu
-        nav.findItem(R.id.nav_find_exercise).isVisible = true
+        //nav.findItem(R.id.nav_find_exercise).isVisible = true
         nav.findItem(R.id.nav_manage_account).isVisible = true
         nav.findItem(R.id.nav_my_trainer).isVisible = false
         //nav.findItem(R.id.nav_my_exercise).isVisible = false
@@ -193,10 +193,10 @@ class TraineeHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItem
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_find_exercise -> {
+//            R.id.nav_find_exercise -> {
 //                val i = Intent(this, FindExercise::class.java)
 //                startActivity(i)
-            }
+//            }
 //            R.id.nav_my_exercise -> {
 //
 //            }

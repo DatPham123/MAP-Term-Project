@@ -4,10 +4,10 @@
       tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-        <item
-                android:id="@+id/nav_find_exercise"
-                android:icon="@drawable/ic_search_exercise_24dp"
-                android:title="@string/label_hamburger_find_exercise"/>
+        <!--<item-->
+                <!--android:id="@+id/nav_find_exercise"-->
+                <!--android:icon="@drawable/ic_search_exercise_24dp"-->
+                <!--android:title="@string/label_hamburger_find_exercise"/>-->
         <!--<item-->
                 <!--android:id="@+id/nav_my_exercise"-->
                 <!--android:icon="@drawable/ic_my_exercise"-->
