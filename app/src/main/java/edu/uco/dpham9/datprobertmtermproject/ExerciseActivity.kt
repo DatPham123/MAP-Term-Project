@@ -76,7 +76,6 @@ class ExerciseActivity : AppCompatActivity() {
                 idea.clear()
                 for(docSnapShot in it)
                 {
-                    Log.d(edu.uco.dpham9.datprobertmtermproject.Users.TAG, docSnapShot.toString())
                     val comment = docSnapShot.toObject(Comment::class.java)
 
                     var poster =
@@ -155,6 +154,7 @@ class ExerciseActivity : AppCompatActivity() {
             }
             idea.add(poster + commented)
 
+            id_commentBlock.setText("")
             blockComment.notifyDataSetChanged()
         }
     }

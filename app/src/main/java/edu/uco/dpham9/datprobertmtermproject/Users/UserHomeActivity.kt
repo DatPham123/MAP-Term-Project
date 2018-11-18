@@ -184,7 +184,7 @@ class UserHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         userType.text = getString(R.string.label_trainerType)
         val nav = findViewById<NavigationView>(R.id.nav_view).menu
         //nav.findItem(R.id.nav_find_exercise).isVisible = true
-        nav.findItem(R.id.nav_manage_account).isVisible = true
+        nav.findItem(R.id.nav_manage_account).isVisible = false
         nav.findItem(R.id.nav_trainer_info).isVisible = false
         nav.findItem(R.id.nav_my_trainer).isVisible = false
         fab.hide()
