@@ -5,13 +5,13 @@ import android.os.Parcelable
 
 const val NO_EMAIL = "No Email"
 const val NO_PASS = "No PASSWORD"
-class User(var email: String, var password: String, var isTrainee: Boolean, var isTrainer: Boolean,
+class User(var email: String, var password: String, var trainee: Boolean, var trainer: Boolean,
            var id: String) : Parcelable
 {
     constructor(): this("" , "" , false, false, "")
 
-    var trainerId: String? = null   //if isTrainee, your trainer's id
-    var traineeIds: ArrayList<String>? = null   //if isTrainer, your trainees' ids
+    var trainerId: String? = null   //if trainee, your trainer's id
+    var traineeIds: ArrayList<String>? = null   //if trainer, your trainees' ids
 
     constructor(parcel: Parcel) : this(
         parcel.readString(),
@@ -32,19 +32,19 @@ class User(var email: String, var password: String, var isTrainee: Boolean, var 
         if(password.isEmpty() || password.isNullOrBlank()){
             password = NO_PASS
         }
-        if(isTrainee){
-            this.isTrainee = isTrainee
+        if(trainee){
+            this.trainee = trainee
         }
-        if(isTrainer){
-            this.isTrainer = isTrainer
+        if(trainer){
+            this.trainer = trainer
         }
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(email)
         parcel.writeString(password)
-        parcel.writeByte(if (isTrainee) 1 else 0)
-        parcel.writeByte(if (isTrainer) 1 else 0)
+        parcel.writeByte(if (trainee) 1 else 0)
+        parcel.writeByte(if (trainer) 1 else 0)
         parcel.writeString(id)
         parcel.writeString(trainerId)
         parcel.writeStringList(traineeIds)
