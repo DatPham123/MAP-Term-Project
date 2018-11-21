@@ -36,6 +36,8 @@
         </activity>
         <activity android:name=".ManageAccount">
         </activity>
+        <activity android:name=".FindExerciseActivity">
+        </activity>
     </application>
 
 </manifest>
