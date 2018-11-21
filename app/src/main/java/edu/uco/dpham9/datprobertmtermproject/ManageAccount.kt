@@ -47,7 +47,6 @@ class ManageAccount : AppCompatActivity() {
 
                     val trainee = it.documents[0].toObject(User::class.java)
                     Log.d(edu.uco.dpham9.datprobertmtermproject.Users.TAG, trainee.toString())
-
                     db?.collection("Users")?.whereEqualTo("id", trainee!!.trainerId)
                         ?.get()
                         ?.addOnSuccessListener {
@@ -61,7 +60,7 @@ class ManageAccount : AppCompatActivity() {
                             //delete users database
                             db?.collection("Users")
                                 ?.document(email)?.delete()
-                            
+
                             //delete account from auth
                             me?.delete()
                         }
