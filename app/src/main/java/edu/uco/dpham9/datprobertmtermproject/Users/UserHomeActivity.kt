@@ -230,7 +230,7 @@ class UserHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         // Handle navigation view item clicks here.
         when (item.itemId) {
 //            R.id.nav_find_exercise -> {
-//                val i = Intent(this, FindExercise::class.java)
+//                val i = Intent(this, FindExerciseActivity::class.java)
 //                startActivity(i)
 //            }
 //            R.id.nav_my_exercise -> {

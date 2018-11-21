@@ -66,6 +66,10 @@ class MainActivity : AppCompatActivity()
             startActivity(createUserPage)
         }
 
-        //next function here
+        btn_apiTest.setOnClickListener{
+            val i = Intent(this, FindExerciseActivity::class.java)
+            startActivity(i)
+        }
+
     }
 }
