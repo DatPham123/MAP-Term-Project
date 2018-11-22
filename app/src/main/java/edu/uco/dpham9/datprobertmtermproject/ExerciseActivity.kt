@@ -35,7 +35,7 @@ class ExerciseActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
-        var myExercise = intent.getParcelableExtra<TraineeExercise>(EXTRA_EXERCISE)
+        val myExercise = intent.getParcelableExtra<TraineeExercise>(EXTRA_EXERCISE)
 
         val isTrainer = intent.getBooleanExtra(EXTRA_TRAINER_LOGGED_IN, false)
 
@@ -123,7 +123,7 @@ class ExerciseActivity : AppCompatActivity() {
             //comment
             var commented = id_commentBlock.text.toString()
             if(commented.isNullOrEmpty() || commented.isNullOrBlank()){
-                Toast.makeText(this, "Please Enter a comment", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, R.string.err_enter_your_comment, Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
             var commentField = Comment(commented, mAuth?.currentUser?.uid.toString(), myExercise.exerciseId)

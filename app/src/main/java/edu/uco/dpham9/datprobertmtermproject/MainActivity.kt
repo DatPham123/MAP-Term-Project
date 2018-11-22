@@ -1,8 +1,11 @@
 package edu.uco.dpham9.datprobertmtermproject
 
 import android.content.Intent
+import android.graphics.drawable.AnimationDrawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -22,6 +25,7 @@ class MainActivity : AppCompatActivity()
 
         mAuth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
+        progressBar.visibility = View.GONE
 
         //sign in button
         id_signinBtn.setOnClickListener {
@@ -40,9 +44,7 @@ class MainActivity : AppCompatActivity()
                 return@setOnClickListener
             }
 
-//            val email = "dpham9@uco.edu"
-//            val password = "password"
-
+            progressBar.visibility = View.VISIBLE
             //sign in
                 mAuth?.signInWithEmailAndPassword(email, password)
                     ?.addOnCompleteListener {
@@ -56,6 +58,7 @@ class MainActivity : AppCompatActivity()
                         else
                         {
                             Toast.makeText(this, R.string.err_signInFail, Toast.LENGTH_SHORT).show()
+                            progressBar.visibility = View.GONE
                         }
                     }
         }
@@ -65,11 +68,5 @@ class MainActivity : AppCompatActivity()
             val createUserPage = Intent(this, UserSignUp::class.java)
             startActivity(createUserPage)
         }
-
-        btn_apiTest.setOnClickListener{
-            val i = Intent(this, FindExerciseActivity::class.java)
-            startActivity(i)
-        }
-
     }
 }

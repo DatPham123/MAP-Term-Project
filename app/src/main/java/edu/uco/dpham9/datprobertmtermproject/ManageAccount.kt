@@ -2,15 +2,12 @@ package edu.uco.dpham9.datprobertmtermproject
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.hardware.camera2.CaptureRequest
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import edu.uco.dpham9.datprobertmtermproject.Model.TraineeExercise
 import edu.uco.dpham9.datprobertmtermproject.Model.User
 import kotlinx.android.synthetic.main.activity_manage_account.*
 
@@ -32,16 +29,16 @@ class ManageAccount : AppCompatActivity() {
         id_deleteBtn.setOnClickListener {
             val alertBuilder = AlertDialog.Builder(this@ManageAccount)
 
-            alertBuilder.setTitle("Delete Account")
-            alertBuilder.setMessage("Are you sure you want to delete this account PERMANENTLY?")
+            alertBuilder.setTitle(R.string.label_delete_title)
+            alertBuilder.setMessage(R.string.err_delete_warning)
 
-            alertBuilder.setPositiveButton("YES"){dialog, which ->
+            alertBuilder.setPositiveButton(R.string.err_yes){_, _ ->
             val me = mAuth?.currentUser
             val email = me?.email!!
             val path = "Videos/" + mAuth?.currentUser?.email
 
             db?.collection("Users")
-                ?.whereEqualTo("id", me?.uid)
+                ?.whereEqualTo("id", me.uid)
                 ?.get()
                 ?.addOnSuccessListener {
 
@@ -52,7 +49,7 @@ class ManageAccount : AppCompatActivity() {
                         ?.addOnSuccessListener {
 
                             val trainer = it.documents[0].toObject(User::class.java)
-                            var traineeIds = trainer?.traineeIds
+                            val traineeIds = trainer?.traineeIds
                             traineeIds?.remove(mAuth?.currentUser?.uid)
                             db?.collection("Users")?.document(trainer!!.email)
                                 ?.update("traineeIds", trainer.traineeIds)
@@ -62,7 +59,7 @@ class ManageAccount : AppCompatActivity() {
                                 ?.document(email)?.delete()
 
                             //delete account from auth
-                            me?.delete()
+                            me.delete()
                         }
                 }
 
@@ -113,7 +110,7 @@ class ManageAccount : AppCompatActivity() {
             finish()
             }
 
-            alertBuilder.setNeutralButton("CANCEL"){_,_->
+            alertBuilder.setNeutralButton(R.string.err_cancel){_,_->
             }
 
             val alert = alertBuilder.create()

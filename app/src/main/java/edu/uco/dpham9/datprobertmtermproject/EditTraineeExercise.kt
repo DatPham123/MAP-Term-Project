@@ -118,10 +118,10 @@ class EditTraineeExercise : AppCompatActivity()
         id_delete_ex.setOnClickListener {
             val alertBuilder = AlertDialog.Builder(this@EditTraineeExercise)
 
-            alertBuilder.setTitle("Delete Exercise")
-            alertBuilder.setMessage("Are you sure you want to delete this exercise?")
+            alertBuilder.setTitle(R.string.err_delete_exercise_title)
+            alertBuilder.setMessage(R.string.err_delete_exercise_warning)
 
-            alertBuilder.setPositiveButton("YES"){dialog, which ->
+            alertBuilder.setPositiveButton(R.string.err_yes){_, _ ->
                 db?.collection("TraineeExercises/${mAuth?.currentUser?.email}/MyExercises")
                     ?.document(myExercise.name)?.delete()
                     ?.addOnSuccessListener {
@@ -148,7 +148,7 @@ class EditTraineeExercise : AppCompatActivity()
 
             }
 
-            alertBuilder.setNeutralButton("CANCEL"){_,_->
+            alertBuilder.setNeutralButton(R.string.err_cancel){_,_->
             }
 
             val alert = alertBuilder.create()
@@ -161,9 +161,6 @@ class EditTraineeExercise : AppCompatActivity()
         if (requestCode == REQ_CODE_VIDEO && resultCode == RESULT_OK)
         {
             videoUri = intent?.data
-            //Toast.makeText(this, intent?.data?.encodedPath, Toast.LENGTH_LONG).show()
-            //var fileName = videoUri.toString().substring(videoUri.toString()
-            //.lastIndexOf("/")+1)
             id_videoUrl.text = "${getString(R.string.label_filename)} $videoUri"
         }
     }

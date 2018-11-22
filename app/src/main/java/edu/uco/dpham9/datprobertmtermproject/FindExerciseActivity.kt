@@ -5,6 +5,7 @@ import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ArrayAdapter
 import edu.uco.dpham9.datprobertmtermproject.Model.Category
 import edu.uco.dpham9.datprobertmtermproject.Model.Exercise
@@ -29,10 +30,7 @@ class FindExerciseActivity : AppCompatActivity()
 
         id_listView.adapter = adapter
 
-        id_searchBtn.setOnClickListener {
-            val workout = id_workout.text.toString().trim()
-            ExerciseGetTask().execute(workout, workout, 1.toString())
-        }
+        ExerciseGetTask().execute()
     }
 
     inner class  ExerciseGetTask: AsyncTask<String, Int, String>() {
@@ -105,6 +103,7 @@ class FindExerciseActivity : AppCompatActivity()
 
             val adapter = id_listView.adapter as ArrayAdapter<Exercise>
             adapter.notifyDataSetChanged()
+            progressBar4.visibility = View.GONE
         }
     }
 }

@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">DatP RobertM TermProject</string>
-    <string name="title_activity_user_home">UserHomeActivity</string>
+    <string name="title_activity_user_home">Home</string>
+    <string name="title_activity_signup">Create Account</string>
+    <string name="title_activity_edit_ex">Edit Exercise</string>
+    <string name="title_activity_find_ex">Find Exercise</string>
+    <string name="title_activity_add_ex">Create Exercise</string>
+    <string name="title_activity_manage">Manage Account</string>
+    <string name="title_no_title"></string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -54,5 +60,13 @@
     <string name="err_rated">Rated</string>
     <string name="err_commentAdded">Comment added to database</string>
     <string name="err_commentFailed">Comment failed </string>
-    <string name="label_trainer_info">\t\t</string>
+    <string name="label_trainer_info">\t\t\t\t\t\t\t\t\t\t\t\t</string>
+    <string name="err_delete_warning">Are you sure you want to delete this account PERMANENTLY?</string>
+    <string name="label_delete_title">Delete Account</string>
+    <string name="err_enter_your_comment">Please Enter a comment</string>
+    <string name="err_delete_exercise_title">Delete Exercise</string>
+    <string name="err_delete_exercise_warning">Are you sure you want to delete this exercise?</string>
+    <string name="err_yes">YES</string>
+    <string name="err_cancel">CANCEL</string>
 </resources>
+

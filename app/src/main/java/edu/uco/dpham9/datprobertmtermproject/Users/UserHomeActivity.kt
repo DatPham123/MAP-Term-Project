@@ -2,6 +2,7 @@ package edu.uco.dpham9.datprobertmtermproject.Users
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -11,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
@@ -46,6 +48,11 @@ class UserHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_home)
         setSupportActionBar(toolbar)
+
+        var animationDrawable = gradient.background as AnimationDrawable
+        animationDrawable.setEnterFadeDuration(3000)
+        animationDrawable.setExitFadeDuration(3000)
+        animationDrawable.start()
 
         mAuth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
@@ -118,6 +125,7 @@ class UserHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                     }
                     id_user_recyclerView.adapter = TraineeExerciseListAdapter(this, myExercises)
                     id_user_recyclerView.adapter?.notifyDataSetChanged()
+                    progressBar2.visibility = View.GONE
                 }
                 ?.addOnFailureListener { ex: Exception ->
                     Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show()
@@ -136,7 +144,7 @@ class UserHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                     }
                     id_user_recyclerView.adapter = UserListAdapter(this, myTrainees)
                     id_user_recyclerView.adapter?.notifyDataSetChanged()
-
+                    progressBar2.visibility = View.GONE
                 }
         }
     }
@@ -161,7 +169,7 @@ class UserHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         val userType = headerView.findViewById<TextView>(R.id.id_userType)
         userType.text = getString(R.string.label_traineeType)
         val nav = findViewById<NavigationView>(R.id.nav_view).menu
-        //nav.findItem(R.id.nav_find_exercise).isVisible = true
+        nav.findItem(R.id.nav_find_exercise).isVisible = true
         nav.findItem(R.id.nav_manage_account).isVisible = true
         nav.findItem(R.id.nav_my_trainer).isVisible = true
         nav.findItem(R.id.nav_my_trainer).isCheckable = false
@@ -183,7 +191,7 @@ class UserHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         val userType = headerView.findViewById<TextView>(R.id.id_userType)
         userType.text = getString(R.string.label_trainerType)
         val nav = findViewById<NavigationView>(R.id.nav_view).menu
-        //nav.findItem(R.id.nav_find_exercise).isVisible = true
+        nav.findItem(R.id.nav_find_exercise).isVisible = true
         nav.findItem(R.id.nav_manage_account).isVisible = false
         nav.findItem(R.id.nav_trainer_info).isVisible = false
         nav.findItem(R.id.nav_my_trainer).isVisible = false
@@ -216,26 +224,13 @@ class UserHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        when (item.itemId) {
-            R.id.action_settings -> return true
-            else -> return super.onOptionsItemSelected(item)
-        }
-    }
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-//            R.id.nav_find_exercise -> {
-//                val i = Intent(this, FindExerciseActivity::class.java)
-//                startActivity(i)
-//            }
-//            R.id.nav_my_exercise -> {
-//
-//            }
+            R.id.nav_find_exercise -> {
+                val i = Intent(this, FindExerciseActivity::class.java)
+                startActivity(i)
+            }
             R.id.nav_my_trainer -> {
 
             }
